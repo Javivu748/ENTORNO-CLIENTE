@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mostrar Texto en Div</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #050308 0%, #6fe10b 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .input-group {
+            margin-bottom: 25px;
+            text-align: left;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #444;
+            font-weight: 500;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        
+        input[type="text"]:focus {
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+            outline: none;
+        }
+        
+        button {
+            background: linear-gradient(to right, #d10e0e, #1d2931);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 12px 25px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.3);
+            width: 100%;
+            margin-bottom: 25px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 144, 226, 0.4);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .result-container {
+            margin-top: 10px;
+        }
+        
+        .result-label {
+            display: block;
+            margin-bottom: 8px;
+            color: #444;
+            font-weight: 500;
+            text-align: left;
+        }
+        
+        #resultado {
+            min-height: 120px;
+            border: 2px dashed #cbd5e0;
+            border-radius: 8px;
+            padding: 15px;
+            text-align: left;
+            background-color: #f8fafc;
+            font-size: 16px;
+            line-height: 1.5;
+            transition: all 0.3s ease;
+        }
+        
+        #resultado.contenido {
+            border: 2px solid #4a90e2;
+            background-color: #f0f7ff;
+        }
+        
+        .placeholder {
+            color: #a0aec0;
+            font-style: italic;
+        }
+        
+
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mostrar Texto</h1>
+        <p class="subtitle">Escribe cualquier texto y haz clic en el botón para mostrarlo abajo</p>
+        
+        <div class="input-group">
+            <label for="textoInput">Ingresa tu texto:</label>
+            <input type="text" id="textoInput" placeholder="Escribe aquí tu mensaje...">
+        </div>
+        
+        <button id="mostrarBtn">Mostrar Texto</button>
+        
+        <div class="result-container">
+            <label class="result-label">Texto mostrado:</label>
+            <div id="resultado">
+                <span class="placeholder">El texto aparecerá aquí después de hacer clic en el botón</span>
+            </div>
+        </div>
+
+    <script>
+        // Obtener referencias a los elementos del DOM
+        const textoInput = document.getElementById('textoInput');
+        const mostrarBtn = document.getElementById('mostrarBtn');
+        const resultado = document.getElementById('resultado');
+        
+        // Función para mostrar el texto en el div
+        function mostrarTexto() {
+            const texto = textoInput.value.trim();
+            
+            if (texto === '') {
+                resultado.innerHTML = '<span class="placeholder">Por favor, escribe algo en el campo de texto</span>';
+                resultado.classList.remove('contenido');
+            } else {
+                resultado.textContent = texto;
+                resultado.classList.add('contenido');
+            }
+        }
+        
+        // Agregar evento al botón
+        mostrarBtn.addEventListener('click', mostrarTexto);
+        
+        // También permitir mostrar el texto presionando Enter
+        textoInput.addEventListener('keypress', function(event) {
+            if (event.key === 'Enter') {
+                mostrarTexto();
+            }
+        });
+        
+        // Enfocar el input al cargar la página
+        textoInput.focus();
+    </script>
+</body>
+</html>

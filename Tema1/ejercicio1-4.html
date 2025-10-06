@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selector de Imágenes</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 900px;
+            padding: 30px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 16px;
+        }
+        
+        .content {
+            display: flex;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+        
+        .left-panel {
+            flex: 1;
+            min-width: 300px;
+        }
+        
+        .right-panel {
+            flex: 2;
+            min-width: 300px;
+        }
+        
+        .upload-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            border: 2px dashed #dee2e6;
+        }
+        
+        .file-input-wrapper {
+            position: relative;
+            overflow: hidden;
+            display: inline-block;
+            width: 100%;
+        }
+        
+        .file-input-wrapper input[type=file] {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+        
+        .file-input-button {
+            display: block;
+            padding: 12px 20px;
+            background: linear-gradient(to right, #4a90e2, #63b3ed);
+            color: white;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .file-input-button:hover {
+            background: linear-gradient(to right, #3a80d2, #53a3dd);
+            transform: translateY(-2px);
+        }
+        
+        .file-info {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #6c757d;
+            text-align: center;
+        }
+        
+        .selector-section {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #444;
+            font-weight: 500;
+        }
+        
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: white;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        
+        select:focus {
+            border-color: #4a90e2;
+            outline: none;
+        }
+        
+        .image-preview {
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            min-height: 350px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #imagenVisualizada {
+            max-width: 100%;
+            max-height: 300px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+        
+        .placeholder-text {
+            color: #6c757d;
+            text-align: center;
+            font-style: italic;
+        }
+        
+        .image-info {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border-radius: 8px;
+            width: 100%;
+        }
+        
+        .image-info p {
+            margin: 5px 0;
+            font-size: 14px;
+            color: #495057;
+        }
+        
+        
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            
+            .left-panel, .right-panel {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Selector de Imágenes</h1>
+        <p class="subtitle">Carga imágenes desde tu dispositivo y visualízalas</p>
+        
+        <div class="content">
+            <div class="left-panel">
+                <div class="upload-section">
+                    <div class="file-input-wrapper">
+                        <div class="file-input-button">
+                            Seleccionar imágenes desde tu disco
+                        </div>
+                        <input type="file" id="fileInput" accept="image/*" multiple>
+                    </div>
+                    <div class="file-info" id="fileInfo">
+                        No se han seleccionado archivos
+                    </div>
+                </div>
+                
+                <div class="selector-section">
+                    <label for="listaImagenes">Selecciona una imagen:</label>
+                    <select id="listaImagenes" size="5">
+                        <option value="" disabled selected>-- Carga imágenes primero --</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="right-panel">
+                <div class="image-preview">
+                    <img id="imagenVisualizada" alt="Vista previa de la imagen">
+                    <div class="placeholder-text" id="placeholder">
+                        La imagen seleccionada aparecerá aquí
+                    </div>
+                    <div class="image-info" id="imageInfo" style="display: none;">
+                        <p><strong>Nombre:</strong> <span id="imageName">-</span></p>
+                        <p><strong>Tamaño:</strong> <span id="imageSize">-</span></p>
+                        <p><strong>Tipo:</strong> <span id="imageType">-</span></p>
+                        <p><strong>Dimensiones:</strong> <span id="imageDimensions">-</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Referencias a elementos del DOM
+        const fileInput = document.getElementById('fileInput');
+        const fileInfo = document.getElementById('fileInfo');
+        const listaImagenes = document.getElementById('listaImagenes');
+        const imagenVisualizada = document.getElementById('imagenVisualizada');
+        const placeholder = document.getElementById('placeholder');
+        const imageInfo = document.getElementById('imageInfo');
+        const imageName = document.getElementById('imageName');
+        const imageSize = document.getElementById('imageSize');
+        const imageType = document.getElementById('imageType');
+        const imageDimensions = document.getElementById('imageDimensions');
+        
+        // Array para almacenar las imágenes cargadas
+        let imagenesCargadas = [];
+        
+        // Manejar la selección de archivos
+        fileInput.addEventListener('change', function(e) {
+            const files = e.target.files;
+            
+            if (files.length === 0) {
+                fileInfo.textContent = 'No se han seleccionado archivos';
+                return;
+            }
+            
+            // Actualizar información de archivos
+            fileInfo.textContent = `${files.length} archivo(s) seleccionado(s)`;
+            
+            // Limpiar lista anterior
+            listaImagenes.innerHTML = '';
+            imagenesCargadas = [];
+            
+            // Procesar cada archivo
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                
+                // Verificar que sea una imagen
+                if (!file.type.match('image.*')) {
+                    continue;
+                }
+                
+                // Crear objeto URL para la imagen
+                const imageUrl = URL.createObjectURL(file);
+                
+                // Guardar información de la imagen
+                imagenesCargadas.push({
+                    name: file.name,
+                    url: imageUrl,
+                    size: file.size,
+                    type: file.type
+                });
+                
+                // Agregar a la lista desplegable
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = file.name;
+                listaImagenes.appendChild(option);
+            }
+            
+            // Si hay imágenes, seleccionar la primera
+            if (imagenesCargadas.length > 0) {
+                listaImagenes.selectedIndex = 0;
+                mostrarImagen(0);
+            }
+        });
+        
+        // Manejar cambio de selección en la lista
+        listaImagenes.addEventListener('change', function() {
+            const selectedIndex = this.value;
+            if (selectedIndex !== '') {
+                mostrarImagen(selectedIndex);
+            }
+        });
+        
+        // Función para mostrar la imagen seleccionada
+        function mostrarImagen(index) {
+            const imagen = imagenesCargadas[index];
+            
+            if (!imagen) return;
+            
+            // Mostrar la imagen
+            imagenVisualizada.src = imagen.url;
+            imagenVisualizada.style.display = 'block';
+            placeholder.style.display = 'none';
+            
+            // Obtener dimensiones de la imagen
+            imagenVisualizada.onload = function() {
+                const width = this.naturalWidth;
+                const height = this.naturalHeight;
+                
+                // Actualizar información
+                imageName.textContent = imagen.name;
+                imageSize.textContent = formatFileSize(imagen.size);
+                imageType.textContent = imagen.type;
+                imageDimensions.textContent = `${width} × ${height} píxeles`;
+                
+                imageInfo.style.display = 'block';
+            };
+        }
+        
+        // Función para formatear el tamaño del archivo
+        function formatFileSize(bytes) {
+            if (bytes === 0) return '0 Bytes';
+            
+            const k = 1024;
+            const sizes = ['Bytes', 'KB', 'MB', 'GB'];
+            const i = Math.floor(Math.log(bytes) / Math.log(k));
+            
+            return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i];
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Selector de Estilos de Texto</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 700px;
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #333;
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        
+        .subtitle {
+            color: #666;
+            text-align: center;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+        
+        .text-display {
+            background-color: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 30px;
+            margin-bottom: 30px;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        
+        #textoEjemplo {
+            font-size: 24px;
+            color: #333;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 0;
+            background-color: #f8f9fa ;
+        }
+        
+        .controls {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 30px;
+        }
+        
+        .control-group {
+            flex: 1;
+            min-width: 200px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #444;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        select:focus {
+            border-color: #4a90e2;
+            box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.2);
+            outline: none;
+        }
+        
+        .style-info {
+            background-color: #f0f7ff;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        .style-info h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .style-examples {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        
+        .style-example {
+            text-align: center;
+            padding: 10px;
+        }
+        
+        .style-example p {
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #4a5568;
+        }
+        
+        .example-text {
+            font-size: 18px;
+            color: #2d3748;
+        }
+        
+        .normal {
+            font-style: normal;
+            font-weight: normal;
+        }
+        
+        .bold {
+            font-weight: bold;
+        }
+        
+        .italic {
+            font-style: italic;
+        }
+        
+        .bold-italic {
+            font-weight: bold;
+            font-style: italic;
+        }
+        
+        .current-style {
+            background-color: #e6fffa;
+            border: 2px solid #38b2ac;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 20px;
+            text-align: center;
+        }
+        
+        .current-style p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+        
+        #estiloActual {
+            font-weight: bold;
+            color: #2d3748;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 26px;
+            }
+            
+            #textoEjemplo {
+                font-size: 20px;
+            }
+            
+            .controls {
+                flex-direction: column;
+            }
+            
+            .control-group {
+                min-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Selector de Estilos de Texto</h1>
+        <p class="subtitle">Usa las listas desplegables para cambiar el estilo del texto</p>
+        
+        <div class="text-display">
+            <input type="text" id="textoEjemplo">
+        </div>
+        
+        <div class="controls">
+            <div class="control-group">
+                <label for="negrita">Estilo de Negrita:</label>
+                <select id="negrita">
+                    <option value="normal">Texto Normal</option>
+                    <option value="bold">Texto en Negrita</option>
+                </select>
+            </div>
+            
+            <div class="control-group">
+                <label for="cursiva">Estilo de Cursiva:</label>
+                <select id="cursiva">
+                    <option value="normal">Texto Normal</option>
+                    <option value="italic">Texto en Cursiva</option>
+                </select>
+            </div>
+        </div>
+        
+        <div class="current-style">
+            <p>Estilo actual aplicado:</p>
+            <p id="estiloActual">Texto Normal</p>
+        </div>
+        
+        <div class="style-info">
+            <h3>Ejemplos de Estilos</h3>
+            <div class="style-examples">
+                <div class="style-example">
+                    <p>Normal</p>
+                    <div class="example-text normal">Texto de ejemplo</div>
+                </div>
+                <div class="style-example">
+                    <p>Negrita</p>
+                    <div class="example-text bold">Texto de ejemplo</div>
+                </div>
+                <div class="style-example">
+                    <p>Cursiva</p>
+                    <div class="example-text italic">Texto de ejemplo</div>
+                </div>
+                <div class="style-example">
+                    <p>Negrita + Cursiva</p>
+                    <div class="example-text bold-italic">Texto de ejemplo</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Referencias a elementos del DOM
+        const negritaSelect = document.getElementById('negrita');
+        const cursivaSelect = document.getElementById('cursiva');
+        const textoEjemplo = document.getElementById('textoEjemplo');
+        const estiloActual = document.getElementById('estiloActual');
+        
+        // Función para actualizar el estilo del texto
+        function actualizarEstilo() {
+            const negrita = negritaSelect.value;
+            const cursiva = cursivaSelect.value;
+            
+            // Aplicar estilos al texto
+            textoEjemplo.style.fontWeight = negrita;
+            textoEjemplo.style.fontStyle = cursiva;
+            
+            // Actualizar la descripción del estilo actual
+            let descripcionEstilo = '';
+            
+            if (negrita === 'normal' && cursiva === 'normal') {
+                descripcionEstilo = 'Texto Normal';
+            } else if (negrita === 'bold' && cursiva === 'normal') {
+                descripcionEstilo = 'Texto en Negrita';
+            } else if (negrita === 'normal' && cursiva === 'italic') {
+                descripcionEstilo = 'Texto en Cursiva';
+            } else if (negrita === 'bold' && cursiva === 'italic') {
+                descripcionEstilo = 'Texto en Negrita y Cursiva';
+            }
+            
+            estiloActual.textContent = descripcionEstilo;
+        }
+        
+        // Agregar event listeners a las listas desplegables
+        negritaSelect.addEventListener('change', actualizarEstilo);
+        cursivaSelect.addEventListener('change', actualizarEstilo);
+        
+        // Inicializar el estilo
+        actualizarEstilo();
+    </script>
+</body>
+</html>

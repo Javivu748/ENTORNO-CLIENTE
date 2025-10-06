@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 1.1: Solicitar y mostrar datos</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+            color: #333;
+        }
+        
+        .container {
+            background-color: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .instructions {
+            background-color: #e8f4fc;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3498db;
+        }
+        
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: block;
+            margin: 0 auto 20px;
+        }
+        
+        button:hover {
+            background-color: #2980b9;
+        }
+        
+        #resultado {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            border-left: 4px solid #2ecc71;
+            min-height: 50px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #7f8c8d;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Ejercicio 1.1: Solicitar y mostrar datos</h1>
+        
+        <div class="instructions">
+            <p>Este ejercicio demuestra cómo solicitar un dato al usuario mediante una ventana emergente y luego mostrar ese dato como contenido de un párrafo.</p>
+            <p>Haz clic en el botón "Solicitar dato" para probar la funcionalidad.</p>
+        </div>
+        
+        <button id="btnSolicitar">Solicitar dato</button>
+        
+        <div id="resultado" class="hidden">
+            <p>El dato ingresado es: <span id="datoIngresado"></span></p>
+        </div>
+        
+        <div class="footer">
+            <p>Ejercicio HTML - JavaScript básico</p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const btnSolicitar = document.getElementById('btnSolicitar');
+            const resultado = document.getElementById('resultado');
+            const datoIngresado = document.getElementById('datoIngresado');
+            
+            btnSolicitar.addEventListener('click', function() {
+                // Solicitar dato al usuario mediante un prompt
+                const dato = prompt('Por favor, ingresa un dato:');
+                
+                // Verificar si el usuario ingresó un dato o canceló
+                if (dato !== null && dato.trim() !== '') {
+                    // Mostrar el dato en el párrafo
+                    datoIngresado.textContent = dato;
+                    resultado.classList.remove('hidden');
+                } else if (dato !== null) {
+                    // El usuario presionó OK pero no ingresó nada
+                    datoIngresado.textContent = '(No se ingresó ningún dato)';
+                    resultado.classList.remove('hidden');
+                }
+                // Si el usuario presionó Cancelar, no hacemos nada
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entornos de Cliente</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<style>
+    :root {
+        --primary-color: #2c3e50;
+        --secondary-color: #3498db;
+        --accent-color: #e74c3c;
+        --light-color: #ecf0f1;
+        --dark-color: #1a2530;
+        --success-color: #2ecc71;
+        --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+    }
+    
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    
+    body {
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, var(--primary-color), var(--dark-color));
+        color: var(--light-color);
+        min-height: 100vh;
+        line-height: 1.6;
+    }
+    
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+    
+    .header {
+        padding: 40px 20px;
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        margin-bottom: 40px;
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .header h1 {
+        text-align: center;
+        font-size: 2.8rem;
+        font-weight: 700;
+        margin-bottom: 10px;
+        background: linear-gradient(to right, var(--light-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+    
+    .explora {
+        text-align: center;
+        font-size: 1.2rem;
+        opacity: 0.9;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+    .vivu {
+        text-align: right;
+        margin-bottom: -20px;
+        font-size: 1rem;
+        opacity: 0.3;
+        margin-top: 10px;
+        font-style: italic;
+    }
+    
+    .content {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 30px;
+        margin-bottom: 40px;
+    }
+    
+    .topic-card {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border-radius: 15px;
+        padding: 30px;
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        transition: var(--transition);
+    }
+    
+    .topic-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    }
+    
+    .topic-card h3 {
+        font-size: 1.8rem;
+        margin-bottom: 20px;
+        color: var(--secondary-color);
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .topic-card h3 i {
+        font-size: 1.5rem;
+    }
+    
+    .buttons {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 15px 20px;
+        background: linear-gradient(135deg, var(--accent-color), #c0392b);
+        color: white;
+        text-decoration: none;
+        border-radius: 10px;
+        font-weight: 500;
+        transition: var(--transition);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border: none;
+        cursor: pointer;
+        font-size: 1rem;
+    }
+    
+    .btn:hover {
+        background: linear-gradient(135deg, #c0392b, var(--accent-color));
+        transform: translateY(-3px);
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        padding: 15px 25px;
+    }
+    
+    .btn i {
+        font-size: 1.1rem;
+    }
+    
+    .footer {
+        text-align: center;
+        padding: 20px;
+        margin-top: 40px;
+        font-size: 0.9rem;
+        opacity: 0.8;
+        border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+        .header h1 {
+            font-size: 2.2rem;
+        }
+        
+        .content {
+            grid-template-columns: 1fr;
+        }
+        
+        .topic-card {
+            padding: 20px;
+        }
+    }
+</style>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>ENTORNOS DE CLIENTE</h1>
+            <p class="explora">Explora los ejercicios y recursos del curso de desarrollo web en entornos de cliente</p>
+            <p class="vivu">Francisco Javier Mesa Giner</p>
+        </div>
+
+        <div class="content">
+            <div class="topic-card">
+                <h3><i class="fa-brands fa-html5"></i> TEMA 1</h3>
+                <div class="buttons">
+                    <a href="Tema1/ejercicio1-1.html" class="btn">
+                        <i class="fas fa-play-circle"></i> Ejercicio 1.1
+                    </a>
+                    <a href="Tema1/ejercicio1-2.html" class="btn">
+                        <i class="fas fa-play-circle"></i> Ejercicio 1.2
+                    </a>
+                    <a href="Tema1/ejercicio1-3.html" class="btn">
+                        <i class="fas fa-play-circle"></i> Ejercicio 1.3
+                    </a>
+                    <a href="Tema1/ejercicio1-4.html" class="btn">
+                        <i class="fas fa-play-circle"></i> Ejercicio 1.4
+                    </a>
+                    <a href="Tema1/ejercicio1-5.html" class="btn">
+                        <i class="fas fa-play-circle"></i> Ejercicio 1.5
+                    </a>
+                </div>
+            </div>
+            
+            <div class="topic-card">
+                <h3><i class="fa-brands fa-html5"></i> TEMA 2</h3>
+                <div class="buttons">
+                </div>
+            </div>
+            
+            <div class="topic-card">
+                <h3><i class="fa-brands fa-html5"></i> TEMA 3</h3>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>© 2023 Entornos de Cliente - Todos los derechos reservados</p>
+        </div>
+    </div>
+</body>
+</html>

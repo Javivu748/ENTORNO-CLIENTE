@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizador de Longitudes de Nombres</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+        
+        .description {
+            color: #555;
+            margin-bottom: 40px;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+        
+        .names-container {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        
+        .name-card {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            border-radius: 15px;
+            padding: 20px;
+            width: 180px;
+            color: white;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .name-card:hover {
+            transform: translateY(-10px);
+        }
+        
+        .name {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .length {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        
+        .length-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .total-container {
+            background-color: #ff7e5f;
+            border-radius: 15px;
+            padding: 25px;
+            color: white;
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        
+        .total-title {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .total-value {
+            font-size: 3rem;
+            font-weight: 700;
+        }
+        
+        .code-container {
+            background-color: #2d3748;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 40px;
+            text-align: left;
+            color: #e2e8f0;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+        
+        .code-title {
+            color: #63b3ed;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+        }
+        
+        .code {
+            color: #cbd5e0;
+            line-height: 1.5;
+        }
+        
+        .keyword {
+            color: #fbb6ce;
+        }
+        
+        .string {
+            color: #68d391;
+        }
+        
+        .comment {
+            color: #a0aec0;
+        }
+        
+        .number {
+            color: #f6ad55;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Visualizador de Longitudes de Nombres</h1>
+        
+        <p class="description">
+            Esta aplicación muestra visualmente la longitud de cada nombre y calcula la suma total de todas las longitudes.
+        </p>
+        
+        <div class="names-container" id="namesContainer">
+            <!-- Las tarjetas de nombres se generarán aquí con JavaScript -->
+        </div>
+        
+        <div class="total-container">
+            <div class="total-title">Suma Total de Longitudes</div>
+            <div class="total-value" id="totalValue">0</div>
+        </div>
+        
+        
+
+    <script>
+        // Array de nombres
+        let nombres = ['Pedro', 'Juan', 'Elena'];
+        
+        // Obtener el contenedor de nombres y el elemento para el total
+        const namesContainer = document.getElementById('namesContainer');
+        const totalValue = document.getElementById('totalValue');
+        
+        // Calcular la suma total de longitudes
+        let sumaNombres = nombres.reduce((acumulador, elemento) => {
+            return acumulador + elemento.length;
+        }, 0);
+        
+        // Mostrar la suma total
+        totalValue.textContent = sumaNombres;
+        
+        // Crear y mostrar las tarjetas para cada nombre
+        nombres.forEach(nombre => {
+            const nameCard = document.createElement('div');
+            nameCard.className = 'name-card';
+            
+            nameCard.innerHTML = `
+                <div class="name">${nombre}</div>
+                <div class="length">${nombre.length}</div>
+                <div class="length-label">caracteres</div>
+            `;
+            
+            namesContainer.appendChild(nameCard);
+        });
+    </script>
+</body>
+</html>

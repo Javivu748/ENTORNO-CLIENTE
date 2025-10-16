@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Función de Número Aleatorio</title>
+</head>
+<style>
+    h1{
+        text-align: center;
+        background-color: cornflowerblue;
+
+    }
+    .ingresadoNum{
+        display: flex;
+        flex-direction: column;
+        margin-inline: 600px;
+        margin-top: 20px;
+        background-color: blue;
+    }
+    .ingresadoNum label{
+        margin-bottom: 20px;
+        text-align: center;
+        font-family: 'Times New Roman', Times, serif;
+        
+
+    }
+    #resultado{
+        text-align: center;
+        background-color: deepskyblue;
+        margin-inline: 600px;
+    }
+
+</style>
+<body>
+    <h1>Generador de Números Aleatorios</h1>
+    
+    <div class="ingresadoNum">
+        <label for="numeroInput">Ingresa un número máximo:</label>
+        <input type="number" id="numeroInput" min="1" value="10">
+        <button onclick="generarAleatorio()">Generar Número Aleatorio</button>
+    </div>
+    
+    <div id="resultado" style="margin-top: 20px; font-size: 18px;"></div>
+
+    <script>
+        // 1. Definir la función de flecha y asignarla a una constante
+        const generarNumeroAleatorio = (maximo) => {
+            return Math.floor(Math.random() * maximo) + 1;
+        };
+
+        // Función para mostrar el resultado en la página
+        function generarAleatorio() {
+            const input = document.getElementById('numeroInput');
+            const resultadoDiv = document.getElementById('resultado');
+            
+            const maximo = parseInt(input.value);
+            
+            if (isNaN(maximo) || maximo < 1) {
+                resultadoDiv.innerHTML = '<p style="color: red;">Por favor, ingresa un número válido mayor a 0</p>';
+                return;
+            }
+            
+            // Llamar a la función de flecha
+            const numeroAleatorio = generarNumeroAleatorio(maximo);
+            
+            resultadoDiv.innerHTML = `
+                <p>Número máximo: ${maximo}</p>
+                <p>Número aleatorio generado: <strong>${numeroAleatorio}</strong></p>
+            `;
+        }
+
+        // Ejemplos de uso en la consola
+        console.log("Ejemplos de uso:");
+        console.log("generarNumeroAleatorio(10):", generarNumeroAleatorio(10));
+        console.log("generarNumeroAleatorio(100):", generarNumeroAleatorio(100));
+        console.log("generarNumeroAleatorio(6):", generarNumeroAleatorio(6));
+    </script>
+</body>
+</html>

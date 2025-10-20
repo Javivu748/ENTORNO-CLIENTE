@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>acercate</title>
+</head>
+<body>
+    <input type="number" placeholder="numero 1" id="num1">
+    <input type="number" placeholder="numero 2" id="num2">
+    <input type="number" placeholder="numero 3" id="num3">
+
+    <button onclick="dameNumero()">aceptar</button>
+
+    <div id="resultado"></div>
+
+    <script>
+        function dameNumero(){
+            let resultado = document.getElementById('resultado');
+            
+            // Obtener los valores numéricos de los inputs
+            const num1 = parseFloat(document.getElementById('num1').value) || 0;
+            const num2 = parseFloat(document.getElementById('num2').value) || 0;
+            const num3 = parseFloat(document.getElementById('num3').value) || 0;
+            
+            // Verificar si algún campo está vacío
+            if(document.getElementById('num1').value === '' || 
+               document.getElementById('num2').value === '' || 
+               document.getElementById('num3').value === '') {
+                resultado.innerHTML = "<p>Ingrese todos los números por favor</p>";
+                return;
+            }
+            
+            // Encontrar el número más grande
+            let mayor = Math.random();
+            if(num1 => mayor) {
+                mayor = num2;
+            }
+
+            if(num2 => mayor) {
+                mayor = num2;
+            }
+            
+            if(num3 => mayor) {
+                mayor = num3;
+            }
+            
+            resultado.innerHTML = '<p>El número que se acerca es: ' + mayor + '</p>';
+        }
+    </script>
+</body>
+</html>

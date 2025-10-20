@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Obtener URL</title>
+</head>
+<body>
+    <h1>Información de la URL</h1>
+    
+    <div id="resultado" style="margin-top: 20px; padding: 10px; border: 1px solid #ccc; background-color: #f9f9f9;"></div>
+    
+    <script>
+        function mostrarURL() {
+            // Obtener la URL completa
+            const urlCompleta =window.location.href;
+            
+            // Obtener diferentes partes de la URL
+            const protocolo = window.location.protocol;
+            const hostname = window.location.hostname;
+            const puerto = window.location.port;
+            const pathname = window.location.pathname;
+            const search = window.location.search;
+            const hash = window.location.hash;
+            
+            // Construir el mensaje con la información
+            let mensaje = "<strong>URL Completa:</strong> " + urlCompleta + "<br><br>";
+            mensaje += "<strong>Desglose de la URL:</strong><br>";
+            mensaje += "• Protocolo: " + protocolo + "<br>";
+            mensaje += "• Hostname: " + hostname + "<br>";
+            mensaje += "• Puerto: " + (puerto ? puerto : "80 (por defecto)") + "<br>";
+            mensaje += "• Ruta: " + (pathname ? pathname : "/") + "<br>";
+            mensaje += "• Parámetros: " + (search ? search : "Ninguno") + "<br>";
+            mensaje += "• Hash: " + (hash ? hash : "Ninguno") + "<br><br>";
+            mensaje += "<strong>Otras propiedades útiles:</strong><br>";
+            mensaje += "• Host: " + window.location.host + "<br>";
+            mensaje += "• Origen: " + window.location.origin;
+            
+            // Mostrar el resultado en la página
+            document.getElementById('resultado').innerHTML = mensaje;
+        }
+        
+        // Mostrar la URL automáticamente al cargar la página
+        window.onload = function() {
+            mostrarURL();
+        };
+    </script>
+</body>
+</html>

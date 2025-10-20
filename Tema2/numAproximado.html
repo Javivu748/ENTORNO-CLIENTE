@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adivina el número</title>
+</head>
+<body>
+    <h1>Adivina el número</h1>
+    <p>Intenta adivinar un número entre 1 y 10</p>
+    
+    <button onclick="jugar()">Comenzar juego</button>
+    
+    <script>
+        function jugar() {
+            // Generar número aleatorio entre 1 y 10
+            const numeroAleatorio = Math.floor(Math.random() * 10) + 1;
+            
+            // Pedir al usuario que ingrese un número
+            const entradaUsuario = prompt("Ingresa un número entre 1 y 10:");
+            
+            // Convertir la entrada a número
+            const numeroUsuario = parseInt(entradaUsuario);
+            
+            // Calcular la diferencia
+            const diferencia = Math.abs(numeroUsuario - numeroAleatorio);
+            
+            // Verificar si coincide o está cerca
+            if (numeroUsuario === numeroAleatorio) {
+                alert("¡Buen trabajo! El número era " + numeroAleatorio);
+            } else if (diferencia <= 2) {
+                alert("¡Casi! El número era " + numeroAleatorio + ". Tu ingresaste: " + numeroUsuario + " (diferencia: " + diferencia + ")");
+            } else {
+                alert("No coincide. El número era " + numeroAleatorio + ". Tu ingresaste: " + numeroUsuario);
+            }
+        }
+    </script>
+</body>
+</html>

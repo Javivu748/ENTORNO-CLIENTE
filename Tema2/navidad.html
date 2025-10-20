@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Días hasta Navidad</title>
+</head>
+<body>
+    <h1>Calculadora de Días hasta Navidad</h1>
+    
+    <button onclick="calcularDiasNavidad()">Calcular días hasta Navidad</button>
+    
+    <script>
+        function calcularDiasNavidad() {
+            // Fecha actual
+            const hoy = new Date();
+            
+            // Próxima Navidad (25 de diciembre del año actual)
+            const añoActual = hoy.getFullYear();
+            const navidad = new Date(añoActual, 11, 25); // Diciembre es mes 11 (0-indexado)
+            
+            // Si ya pasó la Navidad de este año, calcular para el próximo año
+            if (hoy > navidad) {
+                navidad.setFullYear(añoActual + 1);
+            }
+            
+            // Calcular la diferencia en milisegundos
+            const diferenciaMs = navidad - hoy;
+            
+            // Convertir milisegundos a días
+            const diasRestantes = Math.ceil(diferenciaMs / (1000 * 60 * 60 * 24));
+            
+            // Formatear fechas para mostrar
+            const opciones = { year: 'numeric', month: 'long', day: 'numeric' };
+            const fechaHoy = hoy.toLocaleDateString('es-ES', opciones);
+            const fechaNavidad = navidad.toLocaleDateString('es-ES', opciones);
+            
+            // Mostrar resultado
+            const mensaje = "Hoy es: " + fechaHoy + "\n" +
+                           "Próxima Navidad: " + fechaNavidad + "\n" +
+                           "Días que faltan: " + diasRestantes + " día(s)";
+            
+            alert(mensaje);
+        }
+    </script>
+</body>
+</html>

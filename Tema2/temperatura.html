@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conversor de Temperaturas</title>
+</head>
+<body>
+    <h1>Conversor de Temperaturas</h1>
+    
+    <button onclick="convertirTemperatura()">Comenzar conversión</button>
+    
+    <script>
+        function convertirTemperatura() {
+            // Pedir al usuario el tipo de conversión
+            const opcion = prompt("¿Qué conversión deseas realizar?\n1. Celsius a Fahrenheit\n2. Fahrenheit a Celsius\n\nIngresa 1 o 2:");
+            
+            if (opcion === "1") {
+                // Celsius a Fahrenheit
+                const entradaCelsius = prompt("Ingresa la temperatura en Celsius:");
+                const celsius = parseFloat(entradaCelsius);
+                
+                if (isNaN(celsius)) {
+                    alert("Por favor ingresa un número válido");
+                    return;
+                }
+                
+                // Fórmula: F = (C × 9/5) + 32
+                const fahrenheit = (celsius * 9/5) + 32;
+                alert(celsius + " °C es " + fahrenheit + " °F");
+                
+            } else if (opcion === "2") {
+                // Fahrenheit a Celsius
+                const entradaFahrenheit = prompt("Ingresa la temperatura en Fahrenheit:");
+                const fahrenheit = parseFloat(entradaFahrenheit);
+                
+                if (isNaN(fahrenheit)) {
+                    alert("Por favor ingresa un número válido");
+                    return;
+                }
+                
+                // Fórmula: C = (F - 32) × 5/9
+                const celsius = (fahrenheit - 32) * 5/9;
+                alert(fahrenheit + " °F es " + celsius + " °C");
+                
+            } else {
+                alert("Opción no válida. Por favor ingresa 1 o 2");
+            }
+        }
+    </script>
+</body>
+</html>

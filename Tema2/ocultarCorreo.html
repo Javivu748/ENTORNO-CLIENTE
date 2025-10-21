@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ocultar Correos Electrónicos</title>
+</head>
+<body>
+    <div>
+        <h2>Ocultar Direcciones de Correo Electrónico</h2>
+        
+        <div>
+            <h3>Probar la función</h3>
+            <input type="email" id="emailInput" placeholder="Ingresa un correo electrónico">
+            <button onclick="probarOcultarEmail()">Ocultar Email</button>
+            <p id="resultado"></p>
+        </div>
+
+        <div>
+            <h3>Ejemplo con texto que contiene emails</h3>
+            <p id="textoConEmails">
+                Puedes contactarnos en soporte@empresa.com o en ventas@compania.org para más información. 
+                También en admin@dominio.net.
+            </p>
+            <button onclick="ocultarEmailsEnTexto()">Ocultar Emails en Texto</button>
+            <p id="textoProcesado"></p>
+        </div>
+    </div>
+
+    <script>
+        // Función principal para ocultar un email
+        function ocultarEmail(email) {
+            if (!email || typeof email !== 'string') {
+                return 'Email inválido';
+            }
+            
+            // Validar formato básico de email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                return 'Formato de email inválido';
+            }
+            
+            const [usuario, dominio] = email.split('@');
+            
+            // Ocultar parte del usuario (mostrar solo primeros 2 caracteres)
+            let usuarioOculto = usuario.substring(0, 2) + '*'.repeat(Math.max(usuario.length - 2, 0));
+            
+            // Ocultar parte del dominio (mostrar solo el TLD)
+            const partesDominio = dominio.split('.');
+            const dominioOculto = '*'.repeat(partesDominio[0].length) + '.' + partesDominio[1];
+            
+            return usuarioOculto + '@' + dominioOculto;
+        }
+
+        // Función para procesar texto y ocultar todos los emails
+        function ocultarEmailsEnTexto() {
+            const textoOriginal = document.getElementById('textoConEmails').textContent;
+            const textoProcesado = textoOriginal.replace(
+                /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, 
+                ocultarEmail
+            );
+            document.getElementById('textoProcesado').textContent = textoProcesado;
+        }
+
+        // Función para probar con un email específico
+        function probarOcultarEmail() {
+            const email = document.getElementById('emailInput').value;
+            const emailOculto = ocultarEmail(email);
+            document.getElementById('resultado').textContent = 'Email oculto: ' + emailOculto;
+        }
+
+        // Ejemplos de uso
+        console.log(ocultarEmail("usuario@dominio.com")); // "us*****@******.com"
+        console.log(ocultarEmail("admin@empresa.org"));   // "ad****@*******.org"
+        console.log(ocultarEmail("a@b.c"));               // "a@*.c"
+    </script>
+</body>
+</html>

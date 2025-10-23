@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contar Subcadena</title>
+</head>
+<body>
+    <h1>Contar Aparición de Subcadena</h1>
+    
+    <div style="margin-bottom: 20px;">
+        <label for="cadenaPrincipal">Cadena principal:</label><br>
+        <textarea id="cadenaPrincipal" style="width: 400px; height: 80px;">El rápido zorro marrón salta sobre el perro perezoso. El zorro es muy astuto.</textarea>
+    </div>
+    
+    <div style="margin-bottom: 20px;">
+        <label for="subcadena">Subcadena a buscar:</label><br>
+        <input type="text" id="subcadena" style="width: 400px;" value="zorro">
+    </div>
+    
+    <div style="margin-bottom: 20px;">
+        <label for="sensibleMayusculas">
+            <input type="checkbox" id="sensibleMayusculas" checked>
+            Sensible a mayúsculas/minúsculas
+        </label>
+    </div>
+    
+    <button onclick="contarApariciones()">Contar Apariciones</button>
+    
+    <div style="margin-top: 20px;">
+        <h3>Resultado:</h3>
+        <p id="resultado" style="border: 1px solid #ccc; padding: 10px; min-height: 20px;"></p>
+    </div>
+    
+    <div style="margin-top: 20px;">
+        <h3>Ejemplos predefinidos:</h3>
+        <button onclick="ejemplo1()">Ejemplo 1: "zorro"</button>
+        <button onclick="ejemplo2()">Ejemplo 2: "el"</button>
+        <button onclick="ejemplo3()">Ejemplo 3: "JavaScript"</button>
+        <button onclick="ejemplo4()">Ejemplo 4: "a"</button>
+    </div>
+
+    <script>
+        // Función para contar apariciones de subcadena
+        function countSubstring(cadena, subcadena, sensibleMayusculas = true) {
+            if (!cadena || !subcadena) {
+                return 0;
+            }
+            
+            let texto = cadena;
+            let busqueda = subcadena;
+            
+            // Si no es sensible a mayúsculas, convertir a minúsculas
+            if (!sensibleMayusculas) {
+                texto = cadena.toLowerCase();
+                busqueda = subcadena.toLowerCase();
+            }
+            
+            let contador = 0;
+            let posicion = 0;
+            let indice;
+            
+            // Buscar todas las ocurrencias
+            while ((indice = texto.indexOf(busqueda, posicion)) !== -1) {
+                contador++;
+                posicion = indice + 1; // Avanzar la posición de búsqueda
+            }
+            
+            return contador;
+        }
+
+        // Función alternativa usando split (más concisa)
+        function countSubstringSplit(cadena, subcadena, sensibleMayusculas = true) {
+            if (!cadena || !subcadena) {
+                return 0;
+            }
+            
+            let texto = cadena;
+            let busqueda = subcadena;
+            
+            // Si no es sensible a mayúsculas, convertir a minúsculas
+            if (!sensibleMayusculas) {
+                texto = cadena.toLowerCase();
+                busqueda = subcadena.toLowerCase();
+            }
+            
+            // Usar split para contar ocurrencias
+            return texto.split(busqueda).length - 1;
+        }
+
+        // Función principal para contar apariciones
+        function contarApariciones() {
+            const cadenaPrincipal = document.getElementById('cadenaPrincipal').value;
+            const subcadena = document.getElementById('subcadena').value;
+            const sensibleMayusculas = document.getElementById('sensibleMayusculas').checked;
+            
+            const contador = countSubstring(cadenaPrincipal, subcadena, sensibleMayusculas);
+            const contadorSplit = countSubstringSplit(cadenaPrincipal, subcadena, sensibleMayusculas);
+            
+            let resultado = `
+                <strong>Cadena:</strong> "${cadenaPrincipal}"<br>
+                <strong>Subcadena:</strong> "${subcadena}"<br>
+                <strong>Sensible a mayúsculas:</strong> ${sensibleMayusculas ? 'Sí' : 'No'}<br><br>
+                <strong>Apariciones encontradas:</strong> ${contador}<br>
+                <em>(Verificación con método alternativo: ${contadorSplit})</em>
+            `;
+            
+            if (contador === 0) {
+                resultado += `<br><br>⚠️ La subcadena no fue encontrada en el texto.`;
+            } else if (contador === 1) {
+                resultado += `<br><br>📖 La subcadena aparece 1 vez en el texto.`;
+            } else {
+                resultado += `<br><br>📖 La subcadena aparece ${contador} veces en el texto.`;
+            }
+            
+            // Mostrar posiciones si hay ocurrencias
+            if (contador > 0) {
+                const posiciones = encontrarPosiciones(cadenaPrincipal, subcadena, sensibleMayusculas);
+                resultado += `<br><strong>Posiciones:</strong> ${posiciones.join(', ')}`;
+            }
+            
+            document.getElementById('resultado').innerHTML = resultado;
+        }
+
+        // Función para encontrar posiciones de las ocurrencias
+        function encontrarPosiciones(cadena, subcadena, sensibleMayusculas = true) {
+            let texto = cadena;
+            let busqueda = subcadena;
+            
+            if (!sensibleMayusculas) {
+                texto = cadena.toLowerCase();
+                busqueda = subcadena.toLowerCase();
+            }
+            
+            const posiciones = [];
+            let posicion = 0;
+            let indice;
+            
+            while ((indice = texto.indexOf(busqueda, posicion)) !== -1) {
+                posiciones.push(indice + 1); // +1 para mostrar posición humana (empezando en 1)
+                posicion = indice + 1;
+            }
+            
+            return posiciones;
+        }
+
+        // Ejemplos predefinidos
+        function ejemplo1() {
+            document.getElementById('cadenaPrincipal').value = 'El rápido zorro marrón salta sobre el perro perezoso. El zorro es muy astuto.';
+            document.getElementById('subcadena').value = 'zorro';
+            document.getElementById('sensibleMayusculas').checked = true;
+            contarApariciones();
+        }
+
+        function ejemplo2() {
+            document.getElementById('cadenaPrincipal').value = 'El rápido zorro marrón salta sobre el perro perezoso. El zorro es muy astuto.';
+            document.getElementById('subcadena').value = 'el';
+            document.getElementById('sensibleMayusculas').checked = false;
+            contarApariciones();
+        }
+
+        function ejemplo3() {
+            document.getElementById('cadenaPrincipal').value = 'JavaScript es un lenguaje de programación. javascript es muy popular.';
+            document.getElementById('subcadena').value = 'JavaScript';
+            document.getElementById('sensibleMayusculas').checked = true;
+            contarApariciones();
+        }
+
+        function ejemplo4() {
+            document.getElementById('cadenaPrincipal').value = 'Anita lava la tina';
+            document.getElementById('subcadena').value = 'a';
+            document.getElementById('sensibleMayusculas').checked = false;
+            contarApariciones();
+        }
+
+        // Probar la función al cargar la página
+        window.onload = function() {
+            // Ejemplos de prueba
+            const test1 = countSubstring('El zorro rápido y el zorro astuto', 'zorro');
+            const test2 = countSubstring('JavaScript javascript JAVASCRIPT', 'javascript', false);
+            const test3 = countSubstring('Hola mundo', 'x');
+            
+            console.log("Test 1 - 'zorro' aparece:", test1, "veces");
+            console.log("Test 2 - 'javascript' (case insensitive) aparece:", test2, "veces");
+            console.log("Test 3 - 'x' aparece:", test3, "veces");
+            
+            // Cargar primer ejemplo
+            ejemplo1();
+        };
+    </script>
+</body>
+</html>

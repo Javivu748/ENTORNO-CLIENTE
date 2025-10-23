@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Insertar Cadena</title>
+</head>
+<body>
+    <h1>Insertar Cadena en Posición Específica</h1>
+    
+    <div style="margin-bottom: 20px;">
+        <label for="cadenaOriginal">Cadena original:</label><br>
+        <input type="text" id="cadenaOriginal" style="width: 400px;" value="Estamos haciendo ejercicios.">
+    </div>
+    
+    <div style="margin-bottom: 20px;">
+        <label for="cadenaInsertar">Cadena a insertar:</label><br>
+        <input type="text" id="cadenaInsertar" style="width: 400px;" value="JavaScript">
+    </div>
+    
+    <div style="margin-bottom: 20px;">
+        <label for="posicion">Posición (opcional):</label><br>
+        <input type="number" id="posicion" style="width: 100px;" placeholder="Predeterminado: 1">
+    </div>
+    
+    <button onclick="probarFuncion()">Probar Función</button>
+    
+    <div style="margin-top: 20px;">
+        <h3>Resultado:</h3>
+        <p id="resultado" style="border: 1px solid #ccc; padding: 10px; min-height: 20px;"></p>
+    </div>
+    
+    <div style="margin-top: 20px;">
+        <h3>Ejemplos predefinidos:</h3>
+        <button onclick="ejemplo1()">Ejemplo 1: Sin parámetros</button>
+        <button onclick="ejemplo2()">Ejemplo 2: Con cadena a insertar</button>
+        <button onclick="ejemplo3()">Ejemplo 3: Con posición específica</button>
+    </div>
+
+    <script>
+        // Función para insertar cadena
+        function insert(cadenaOriginal, cadenaInsertar = "", posicion = 1) {
+            // Validar que la posición sea un número válido
+            if (posicion < 1) {
+                posicion = 1;
+            }
+            
+            // Si no hay cadena para insertar, devolver la original
+            if (!cadenaInsertar) {
+                return cadenaOriginal;
+            }
+            
+            // Insertar la cadena en la posición especificada
+            const parteInicial = cadenaOriginal.slice(0, posicion - 1);
+            const parteFinal = cadenaOriginal.slice(posicion - 1);
+            
+            return parteInicial + cadenaInsertar + " " + parteFinal;
+        }
+
+        // Función para probar la función insert
+        function probarFuncion() {
+            const cadenaOriginal = document.getElementById('cadenaOriginal').value;
+            const cadenaInsertar = document.getElementById('cadenaInsertar').value;
+            const posicionInput = document.getElementById('posicion').value;
+            
+            let resultado;
+            
+            if (posicionInput === "") {
+                // Usar valor predeterminado
+                resultado = insert(cadenaOriginal, cadenaInsertar);
+            } else {
+                const posicion = parseInt(posicionInput);
+                resultado = insert(cadenaOriginal, cadenaInsertar, posicion);
+            }
+            
+            document.getElementById('resultado').textContent = resultado;
+        }
+
+        // Ejemplos predefinidos
+        function ejemplo1() {
+            document.getElementById('cadenaOriginal').value = "Estamos haciendo ejercicios.";
+            document.getElementById('cadenaInsertar').value = "";
+            document.getElementById('posicion').value = "";
+            
+            const resultado = insert("Estamos haciendo ejercicios.");
+            document.getElementById('resultado').textContent = resultado;
+        }
+
+        function ejemplo2() {
+            document.getElementById('cadenaOriginal').value = "Estamos haciendo ejercicios.";
+            document.getElementById('cadenaInsertar').value = "JavaScript";
+            document.getElementById('posicion').value = "";
+            
+            const resultado = insert("Estamos haciendo ejercicios.", "JavaScript");
+            document.getElementById('resultado').textContent = resultado;
+        }
+
+        function ejemplo3() {
+            document.getElementById('cadenaOriginal').value = "Estamos haciendo algunos ejercicios.";
+            document.getElementById('cadenaInsertar').value = "JavaScript";
+            document.getElementById('posicion').value = "18";
+            
+            const resultado = insert("Estamos haciendo algunos ejercicios.", "JavaScript", 18);
+            document.getElementById('resultado').textContent = resultado;
+        }
+
+        // Probar los ejemplos del enunciado al cargar la página
+        window.onload = function() {
+            console.log("Ejemplo 1:", insert('Estamos haciendo ejercicios.'));
+            console.log("Ejemplo 2:", insert('Estamos haciendo ejercicios.', 'JavaScript'));
+            console.log("Ejemplo 3:", insert('Estamos haciendo algunos ejercicios.', 'JavaScript', 18));
+        };
+    </script>
+</body>
+</html>

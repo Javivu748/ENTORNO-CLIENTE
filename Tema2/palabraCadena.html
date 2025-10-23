@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscar Palabra</title>
+</head>
+<body>
+    <h1>Buscar Palabra en una Cadena</h1>
+    
+    <div style="margin-bottom: 20px;">
+        <label for="cadenaTexto">Texto:</label><br>
+        <textarea id="cadenaTexto" style="width: 400px; height: 80px;">El zorro marrón salta sobre el perro perezoso</textarea>
+    </div>
+    
+    <div style="margin-bottom: 20px;">
+        <label for="palabraBuscar">Palabra a buscar:</label><br>
+        <input type="text" id="palabraBuscar" style="width: 400px;" value="zorro">
+    </div>
+    
+    <div style="margin-bottom: 20px;">
+        <label for="sensibleMayusculas">
+            <input type="checkbox" id="sensibleMayusculas" checked>
+            Sensible a mayúsculas/minúsculas
+        </label>
+    </div>
+    
+    <button onclick="buscarPalabra()">Buscar Palabra</button>
+    
+    <div style="margin-top: 20px;">
+        <h3>Resultado:</h3>
+        <p id="resultado" style="border: 1px solid #ccc; padding: 10px; min-height: 20px;"></p>
+    </div>
+    
+    <div style="margin-top: 20px;">
+        <h3>Ejemplos predefinidos:</h3>
+        <button onclick="ejemplo1()">Ejemplo 1: 'zorro' en 'El zorro marrón'</button>
+        <button onclick="ejemplo2()">Ejemplo 2: 'aa' en 'aa, bb, aa'</button>
+        <button onclick="ejemplo3()">Ejemplo 3: 'el' en texto largo</button>
+        <button onclick="ejemplo4()">Ejemplo 4: palabra no encontrada</button>
+    </div>
+
+    <script>
+        // Función para buscar palabra exacta
+        function palabra_busqueda(cadena, palabra, sensibleMayusculas = true) {
+            if (!cadena || !palabra) {
+                return `No se proporcionó texto o palabra para buscar`;
+            }
+            
+            let texto = cadena;
+            let palabraBuscada = palabra;
+            
+            // Si no es sensible a mayúsculas, convertir a minúsculas
+            if (!sensibleMayusculas) {
+                texto = cadena.toLowerCase();
+                palabraBuscada = palabra.toLowerCase();
+            }
+            
+            // Usar expresión regular para buscar palabras exactas
+            // \b representa límites de palabra (word boundaries)
+            const regex = new RegExp(`\\b${escapeRegExp(palabraBuscada)}\\b`, 'g');
+            const coincidencias = texto.match(regex);
+            
+            const contador = coincidencias ? coincidencias.length : 0;
+            
+            return `'${palabra}' se encontró ${contador} ${contador === 1 ? 'vez' : 'veces'}`;
+        }
+
+        // Función auxiliar para escapar caracteres especiales en regex
+        function escapeRegExp(string) {
+            return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+        }
+
+        // Función alternativa sin usar regex (método más básico)
+        function palabra_busqueda_alternativa(cadena, palabra, sensibleMayusculas = true) {
+            if (!cadena || !palabra) {
+                return `No se proporcionó texto o palabra para buscar`;
+            }
+            
+            let texto = cadena;
+            let palabraBuscada = palabra;
+            
+            if (!sensibleMayusculas) {
+                texto = cadena.toLowerCase();
+                palabraBuscada = palabra.toLowerCase();
+            }
+            
+            // Dividir el texto en palabras
+            const palabras = texto.split(/\s+/);
+            let contador = 0;
+            
+            // Contar ocurrencias exactas
+            for (let palabra of palabras) {
+                // Limpiar signos de puntuación alrededor de la palabra
+                const palabraLimpia = palabra.replace(/[.,!?;:()\[\]{}'"`]/g, '');
+                if (palabraLimpia === palabraBuscada) {
+                    contador++;
+                }
+            }
+            
+            return `'${palabra}' se encontró ${contador} ${contador === 1 ? 'vez' : 'veces'}`;
+        }
+
+        // Función principal para buscar palabra
+        function buscarPalabra() {
+            const cadenaTexto = document.getElementById('cadenaTexto').value;
+            const palabraBuscar = document.getElementById('palabraBuscar').value;
+            const sensibleMayusculas = document.getElementById('sensibleMayusculas').checked;
+            
+            const resultado = palabra_busqueda(cadenaTexto, palabraBuscar, sensibleMayusculas);
+            const resultadoAlt = palabra_busqueda_alternativa(cadenaTexto, palabraBuscar, sensibleMayusculas);
+            
+            let htmlResultado = `
+                <strong>Texto:</strong> "${cadenaTexto}"<br>
+                <strong>Palabra buscada:</strong> "${palabraBuscar}"<br>
+                <strong>Sensible a mayúsculas:</strong> ${sensibleMayusculas ? 'Sí' : 'No'}<br><br>
+                <strong>Resultado:</strong> ${resultado}<br>
+                <em>(Verificación alternativa: ${resultadoAlt})</em>
+            `;
+            
+            // Mostrar palabras encontradas si hay resultados
+            const regex = new RegExp(`\\b${escapeRegExp(sensibleMayusculas ? palabraBuscar : palabraBuscar.toLowerCase())}\\b`, 'g');
+            const textoBusqueda = sensibleMayusculas ? cadenaTexto : cadenaTexto.toLowerCase();
+            const coincidencias = textoBusqueda.match(regex);
+            
+            if (coincidencias && coincidencias.length > 0) {
+                htmlResultado += `<br><br><strong>Palabras encontradas:</strong> `;
+                
+                // Resaltar las palabras encontradas en el texto original
+                let textoResaltado = cadenaTexto;
+                const regexResaltar = new RegExp(`\\b${escapeRegExp(palabraBuscar)}\\b`, sensibleMayusculas ? 'g' : 'gi');
+                textoResaltado = textoResaltado.replace(regexResaltar, match => `<mark>${match}</mark>`);
+                
+                htmlResultado += `<br><div style="background: #f9f9f9; padding: 10px; margin-top: 10px;">${textoResaltado}</div>`;
+            }
+            
+            document.getElementById('resultado').innerHTML = htmlResultado;
+        }
+
+        // Ejemplos predefinidos
+        function ejemplo1() {
+            document.getElementById('cadenaTexto').value = 'El zorro marrón';
+            document.getElementById('palabraBuscar').value = 'zorro';
+            document.getElementById('sensibleMayusculas').checked = true;
+            buscarPalabra();
+        }
+
+        function ejemplo2() {
+            document.getElementById('cadenaTexto').value = 'aa, bb, aa';
+            document.getElementById('palabraBuscar').value = 'aa';
+            document.getElementById('sensibleMayusculas').checked = true;
+            buscarPaluma();
+        }
+
+        function ejemplo3() {
+            document.getElementById('cadenaTexto').value = 'El rápido zorro marrón salta sobre el perro perezoso. El zorro es muy astuto.';
+            document.getElementById('palabraBuscar').value = 'el';
+            document.getElementById('sensibleMayusculas').checked = false;
+            buscarPalabra();
+        }
+
+        function ejemplo4() {
+            document.getElementById('cadenaTexto').value = 'El zorro marrón salta sobre el perro';
+            document.getElementById('palabraBuscar').value = 'gato';
+            document.getElementById('sensibleMayusculas').checked = true;
+            buscarPalabra();
+        }
+
+        // Probar los ejemplos del enunciado al cargar la página
+        window.onload = function() {
+            console.log("Ejemplo 1:", palabra_busqueda('El zorro marrón', 'zorro'));
+            console.log("Ejemplo 2:", palabra_busqueda('aa, bb, aa', 'aa'));
+            
+            // Probar casos adicionales
+            console.log("Test 3:", palabra_busqueda('El el EL', 'el', true));
+            console.log("Test 4:", palabra_busqueda('El el EL', 'el', false));
+            
+            // Cargar primer ejemplo
+            ejemplo1();
+        };
+    </script>
+</body>
+</html>

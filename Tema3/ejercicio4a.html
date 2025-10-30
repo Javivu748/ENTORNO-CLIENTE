@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ejercicio 4a - Suma de matriz</title>
+</head>
+<body>
+    <h1>Suma de elementos de una matriz</h1>
+    
+    <div>
+        <p>Array: [1, 2, 3, 4, 5, 6]</p>
+        <button onclick="calcularSuma()">Calcular Suma</button>
+        <p id="resultado"></p>
+    </div>
+
+    <script>
+        function calcularSuma() {
+            var array = [1, 2, 3, 4, 5, 6];
+            var suma = array.reduce((total, num) => total + num, 0);
+            document.getElementById("resultado").innerHTML = "Resultado: " + suma;
+        }
+    </script>
+</body>
+</html>

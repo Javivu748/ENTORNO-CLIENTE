@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ejercicio 18 - Producto de matriz</title>
+</head>
+<body>
+    <h1>Calcular producto de valores en una matriz</h1>
+    
+    <div>
+        <p>Array: [2, 3, 4, 5]</p>
+        <button onclick="calcularProducto()">Calcular Producto</button>
+        <p id="resultado"></p>
+    </div>
+
+    <script>
+        function calcularProducto() {
+            var array = [2, 3, 4, 5];
+            var producto = array.reduce((total, num) => total * num, 1);
+            document.getElementById("resultado").innerHTML = "Producto: " + producto;
+        }
+    </script>
+</body>
+</html>

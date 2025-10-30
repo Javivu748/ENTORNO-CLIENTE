@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ejercicio 8b - Elemento más frecuente</title>
+</head>
+<body>
+    <h1>Encontrar elemento más frecuente de una matriz</h1>
+    
+    <div>
+        <p>Array: [1, 2, 3, 2, 4, 2, 5, 2, 6]</p>
+        <button onclick="encontrarFrecuente()">Encontrar Más Frecuente</button>
+        <p id="resultado"></p>
+    </div>
+
+    <script>
+        function encontrarFrecuente() {
+            var array = [1, 2, 3, 2, 4, 2, 5, 2, 6];
+            var frecuencia = {};
+            var maxFrecuencia = 0;
+            var elementoFrecuente;
+            
+            array.forEach(function(elemento) {
+                frecuencia[elemento] = (frecuencia[elemento] || 0) + 1;
+                if (frecuencia[elemento] > maxFrecuencia) {
+                    maxFrecuencia = frecuencia[elemento];
+                    elementoFrecuente = elemento;
+                }
+            });
+            
+            document.getElementById("resultado").innerHTML = 
+                "Elemento más frecuente: " + elementoFrecuente + " (aparece " + maxFrecuencia + " veces)";
+        }
+    </script>
+</body>
+</html>

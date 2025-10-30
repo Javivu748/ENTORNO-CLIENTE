@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ejercicio 6 - Valor más alto</title>
+</head>
+<body>
+    <h1>Encontrar el valor más alto en una matriz</h1>
+    
+    <div>
+        <p>Array: [11, 3, 16, 90]</p>
+        <button onclick="encontrarMaximo()">Encontrar Máximo</button>
+        <p id="resultado"></p>
+    </div>
+
+    <script>
+        function encontrarMaximo() {
+            var array = [11, 3, 16, 90];
+            var maximo = Math.max(...array);
+            document.getElementById("resultado").innerHTML = "Valor más alto: " + maximo;
+        }
+    </script>
+</body>
+</html>

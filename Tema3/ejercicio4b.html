@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ejercicio 4b - Días del mes</title>
+</head>
+<body>
+    <h1>Obtener días del mes</h1>
+    
+    <div>
+        <label>Mes (1-12): </label>
+        <input type="number" id="mes" min="1" max="12" value="1">
+        <br><br>
+        <label>Año: </label>
+        <input type="number" id="anio" value="2024">
+        <br><br>
+        <button onclick="obtenerDias()">Obtener Días</button>
+        <p id="resultado"></p>
+    </div>
+
+    <script>
+        function obtenerDias() {
+            var mes = parseInt(document.getElementById("mes").value);
+            var anio = parseInt(document.getElementById("anio").value);
+            
+            var dias = new Date(anio, mes, 0).getDate();
+            var nombreMes = new Date(anio, mes-1).toLocaleString('es', { month: 'long' });
+            
+            document.getElementById("resultado").innerHTML = 
+                "Mes: " + nombreMes + " - Días: " + dias;
+        }
+    </script>
+</body>
+</html>

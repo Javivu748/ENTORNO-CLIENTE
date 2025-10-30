@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ejercicio 8a - Diferencia entre fechas</title>
+</head>
+<body>
+    <h1>Diferencia entre dos fechas en días</h1>
+    
+    <div>
+        <label>Fecha 1: </label>
+        <input type="date" id="fecha1" value="2024-01-01">
+        <br><br>
+        <label>Fecha 2: </label>
+        <input type="date" id="fecha2" value="2024-01-10">
+        <br><br>
+        <button onclick="calcularDiferencia()">Calcular Diferencia</button>
+        <p id="resultado"></p>
+    </div>
+
+    <script>
+        function calcularDiferencia() {
+            var fecha1 = new Date(document.getElementById("fecha1").value);
+            var fecha2 = new Date(document.getElementById("fecha2").value);
+            
+            var diferenciaMs = Math.abs(fecha2 - fecha1);
+            var diferenciaDias = Math.ceil(diferenciaMs / (1000 * 60 * 60 * 24));
+            
+            document.getElementById("resultado").innerHTML = 
+                "Diferencia: " + diferenciaDias + " días";
+        }
+    </script>
+</body>
+</html>

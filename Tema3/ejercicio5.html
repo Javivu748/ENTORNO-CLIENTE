@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ejercicio 5 - Unir elementos</title>
+</head>
+<body>
+    <h1>Unir elementos de una matriz en una cadena</h1>
+    
+    <div>
+        <p>Array: ["Hola", "mundo", "JavaScript"]</p>
+        <button onclick="unirElementos()">Unir Elementos</button>
+        <p id="resultado"></p>
+    </div>
+
+    <script>
+        function unirElementos() {
+            var array = ["Hola", "mundo", "JavaScript"];
+            var cadena = array.join(" ");
+            document.getElementById("resultado").innerHTML = "Cadena: " + cadena;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 5 - Mostrar URL de imágenes</title>
+</head>
+<body>
+    <h1>Ejercicio 5: Mostrar URL de imágenes</h1>
+    <p>Pasa el ratón por encima de cada imagen para ver su URL:</p>
+    
+    <div>
+        <img src="https://via.placeholder.com/200x150/4CAF50/FFFFFF?text=Imagen+1" 
+             alt="Imagen 1" width="200" height="150">
+        <br>
+        <img src="https://via.placeholder.com/200x150/2196F3/FFFFFF?text=Imagen+2" 
+             alt="Imagen 2" width="200" height="150">
+        <br>
+        <img src="https://via.placeholder.com/200x150/FF9800/FFFFFF?text=Imagen+3" 
+             alt="Imagen 3" width="200" height="150">
+    </div>
+    
+    <p id="urlInfo" style="margin-top: 20px; font-weight: bold;"></p>
+    
+    <script>
+        const urlInfo = document.getElementById('urlInfo');
+        const imagenes = document.querySelectorAll('img');
+        
+        imagenes.forEach(function(imagen) {
+            imagen.addEventListener('mouseover', function() {
+                urlInfo.textContent = `URL de la imagen: ${imagen.src}`;
+            });
+            
+            imagen.addEventListener('mouseout', function() {
+                urlInfo.textContent = '';
+            });
+        });
+    </script>
+</body>
+</html>

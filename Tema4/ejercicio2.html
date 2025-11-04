@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 2 - Cambio de color</title>
+</head>
+<body>
+    <h1>Ejercicio 2: Cambio de color</h1>
+    <p>Prueba estos eventos:</p>
+    <ul>
+        <li>Haz click en cualquier lugar (fondo amarillo)</li>
+        <li>Pulsa una tecla (fondo azul)</li>
+        <li>Mueve el ratón (fondo blanco)</li>
+    </ul>
+    
+    <div id="mensaje" style="border: 1px solid black; padding: 20px; margin: 10px;">
+        Este es el cuadro de mensaje. Observa cómo cambia el color de fondo.
+    </div>
+    
+    <script>
+        const mensaje = document.getElementById('mensaje');
+        
+        // Al hacer click - fondo amarillo
+        document.addEventListener('mousedown', function() {
+            mensaje.style.backgroundColor = '#FFFF00';
+        });
+        
+        // Al pulsar tecla - fondo azul
+        document.addEventListener('keydown', function() {
+            mensaje.style.backgroundColor = '#CCE6FF';
+        });
+        
+        // Al mover el ratón - fondo blanco
+        document.addEventListener('mousemove', function() {
+            mensaje.style.backgroundColor = 'white';
+        });
+    </script>
+</body>
+</html>

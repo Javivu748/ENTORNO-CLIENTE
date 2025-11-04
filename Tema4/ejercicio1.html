@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 1 - Cambio de imagen</title>
+</head>
+<body>
+    <h1>Ejercicio 1: Cambio de imagen</h1>
+    <p>Mantén pulsado el botón del ratón sobre la imagen para cambiarla</p>
+    
+    <img id="miImagen" src="https://via.placeholder.com/300x200/4CAF50/FFFFFF?text=Imagen+Normal" 
+         alt="Imagen normal" width="300" height="200">
+    
+    <script>
+        const imagen = document.getElementById('miImagen');
+        const imagenNormal = 'https://via.placeholder.com/300x200/4CAF50/FFFFFF?text=Imagen+Normal';
+        const imagenPulsada = 'https://via.placeholder.com/300x200/FF5722/FFFFFF?text=Imagen+Pulsada';
+        
+        imagen.addEventListener('mousedown', function() {
+            imagen.src = imagenPulsada;
+        });
+        
+        imagen.addEventListener('mouseup', function() {
+            imagen.src = imagenNormal;
+        });
+        
+        // Para cuando el ratón sale de la imagen mientras está pulsado
+        imagen.addEventListener('mouseleave', function() {
+            imagen.src = imagenNormal;
+        });
+    </script>
+</body>
+</html>

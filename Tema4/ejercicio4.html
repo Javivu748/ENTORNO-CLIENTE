@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 4 - Identificar botón del ratón</title>
+</head>
+<body>
+    <h1>Ejercicio 4: Identificar botón del ratón</h1>
+    <p>Haz click en cualquier parte de la página con el botón izquierdo o derecho del ratón.</p>
+    <p id="resultado" style="font-weight: bold; color: blue;"></p>
+    
+    <script>
+        const resultado = document.getElementById('resultado');
+        
+        document.addEventListener('mousedown', function(event) {
+            let boton = '';
+            
+            if (event.button === 0) {
+                boton = 'IZQUIERDO';
+            } else if (event.button === 2) {
+                boton = 'DERECHO';
+            } else if (event.button === 1) {
+                boton = 'CENTRAL';
+            } else {
+                boton = 'DESCONOCIDO';
+            }
+            
+            resultado.textContent = `Has pulsado el botón ${boton} del ratón`;
+        });
+        
+        // Prevenir el menú contextual para poder detectar el botón derecho
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+        });
+    </script>
+</body>
+</html>

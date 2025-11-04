@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 3 - Deshabilitar botón derecho</title>
+</head>
+<body>
+    <h1>Ejercicio 3: Deshabilitar botón derecho</h1>
+    <p>Intenta hacer click con el botón derecho del ratón en cualquier parte de la página.</p>
+    <p>Verás que el menú contextual está deshabilitado.</p>
+    
+    <script>
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+            alert('El botón derecho está deshabilitado en esta página');
+        });
+    </script>
+</body>
+</html>

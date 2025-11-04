@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Ejercicio 6 - Detectar teclas</title>
+</head>
+<body>
+    <h1>Ejercicio 6: Detectar teclas y combinaciones</h1>
+    <p>Pulsa cualquier tecla en el teclado, sola o combinada con Alt, Shift o Control.</p>
+    <p id="teclaInfo" style="font-weight: bold; color: green; font-size: 18px;"></p>
+    
+    <script>
+        const teclaInfo = document.getElementById('teclaInfo');
+        
+        document.addEventListener('keydown', function(event) {
+            let mensaje = `Tecla pulsada: ${event.key} (Código: ${event.code})`;
+            let combinaciones = [];
+            
+            if (event.altKey) combinaciones.push('Alt');
+            if (event.shiftKey) combinaciones.push('Shift');
+            if (event.ctrlKey) combinaciones.push('Control');
+            
+            if (combinaciones.length > 0) {
+                mensaje += ` - Combinada con: ${combinaciones.join(' + ')}`;
+            }
+            
+            teclaInfo.textContent = mensaje;
+        });
+        
+        document.addEventListener('keyup', function() {
+            setTimeout(function() {
+                teclaInfo.textContent = 'Pulsa cualquier tecla...';
+            }, 2000);
+        });
+    </script>
+</body>
+</html>

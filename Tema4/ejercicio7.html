@@ -3,13 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <title>Ejercicio 7 - Mover caja con teclado</title>
+    <style>
+        #caja {
+            background-size: cover; /* Ajusta la imagen para cubrir todo el contenedor */
+            background-position: center; /* Centra la imagen */
+            background-repeat: no-repeat; /* Evita que se repita */
+        }
+    </style>
 </head>
 <body>
-    <h1>Ejercicio 7: Mover caja con teclado</h1>
+    <h1>Ejercicio 7: Mover a Amador con el teclado</h1>
     <p>Usa las flechas del teclado o las teclas numéricas (2,4,6,8) para mover la caja:</p>
     
     <div id="contenedor" style="position: relative; width: 500px; height: 300px; border: 2px solid black;">
-        <div id="caja" style="position: absolute; width: 50px; height: 50px; background-color: red; top: 125px; left: 225px;"></div>
+        <div id="caja" style="position: absolute; width: 50px; height: 50px; background-image: url(https://img.asmedia.epimg.net/resizer/v2/ENDZZL6Y2JOG3AUDUVRSQSBUSE.jpg?auth=1f0273e6e3fbebb1984adbe57ee4e30eaf598c29ca4a332a3ac9a1972e1c60fa&width=1200&height=1200&smart=true); top: 125px; left: 225px;"></div>
     </div>
     
     <p>Posición actual: <span id="posicion">X: 225, Y: 125</span></p>

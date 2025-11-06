@@ -8,25 +8,32 @@
     <h1>Ejercicio 1: Cambio de imagen</h1>
     <p>Mantén pulsado el botón del ratón sobre la imagen para cambiarla</p>
     
-    <img id="miImagen" src="2wCEAAkGBxISEhUTExMVFRMXFxUXFxgXGBUYFhUYFRUWFxUYGBcYHSggGBolHRUVITEhJSktLi4uFx8zODMtNygtLisBCgoKDg0OGxAQGy0lHyYtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLf" 
-         alt="Imagen normal" width="300" height="200">
+    <!-- Reemplazamos la imagen por un div con background-image -->
+    <div id="miDivImagen" style="width:300px; height:200px; background-size:cover; background-position:center; cursor:pointer; border:1px solid #ccc;"></div>
     
     <script>
-        const imagen = document.getElementById('miImagen');
-        const imagenNormal = '2wCEAAkGBxMTEhUTExMWFhUWGBsYGBgYFx4aFxsbFx4aGhgdGhcbICggGBolHhgYIzEhJSkrLi8vGiIzODMtNygtLi0BCgoKDg0OGxAQGzAlHyUtLS0tLS0tLS0tLy8tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLf';
-        const imagenPulsada = '2wCEAAkGBxISEhUTExMVFRMXFxUXFxgXGBUYFhUYFRUWFxUYGBcYHSggGBolHRUVITEhJSktLi4uFx8zODMtNygtLisBCgoKDg0OGxAQGy0lHyYtLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLf';
+        const divImagen = document.getElementById('miDivImagen');
         
-        imagen.addEventListener('mousedown', function() {
-            imagen.src = imagenPulsada;
+        // URLs de las imágenes (las mismas que tenías originalmente)
+        const imagenNormal = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTuQRAZsLgy2_GFxvnEIBqePi0T3F-YKGR7sQ&s';
+        const imagenPulsada = 'https://i.pinimg.com/474x/f3/8a/69/f38a69d7b193b9ba815f81791ad5eca1.jpg';
+        
+        // Establecer la imagen inicial
+        divImagen.style.backgroundImage = `url('${imagenNormal}')`;
+        
+        // Evento cuando se presiona el botón del ratón
+        divImagen.addEventListener('mousedown', function() {
+            divImagen.style.backgroundImage = `url('${imagenPulsada}')`;
         });
         
-        imagen.addEventListener('mouseup', function() {
-            imagen.src = imagenNormal;
+        // Evento cuando se suelta el botón del ratón
+        divImagen.addEventListener('mouseup', function() {
+            divImagen.style.backgroundImage = `url('${imagenNormal}')`;
         });
         
-        // Para cuando el ratón sale de la imagen mientras está pulsado
-        imagen.addEventListener('mouseleave', function() {
-            imagen.src = imagenNormal;
+        // Para cuando el ratón sale del div mientras está pulsado
+        divImagen.addEventListener('mouseleave', function() {
+            divImagen.style.backgroundImage = `url('${imagenNormal}')`;
         });
     </script>
 </body>

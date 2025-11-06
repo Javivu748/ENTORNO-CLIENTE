@@ -5,9 +5,9 @@
     <title>Ejercicio 7 - Mover caja con teclado</title>
     <style>
         #caja {
-            background-size: cover; /* Ajusta la imagen para cubrir todo el contenedor */
-            background-position: center; /* Centra la imagen */
-            background-repeat: no-repeat; /* Evita que se repita */
+            background-size: cover; 
+            background-position: center; 
+            background-repeat: no-repeat; 
         }
     </style>
 </head>
@@ -31,19 +31,19 @@
         document.addEventListener('keydown', function(event) {
             switch(event.key) {
                 case 'ArrowUp':
-                case '8': // Tecla 8 del teclado numérico
+                case 'w': // Tecla 8 del teclado numérico
                     y = Math.max(0, y - paso);
                     break;
                 case 'ArrowDown':
-                case '2': // Tecla 2 del teclado numérico
+                case 's': // Tecla 2 del teclado numérico
                     y = Math.min(250, y + paso);
                     break;
                 case 'ArrowLeft':
-                case '4': // Tecla 4 del teclado numérico
+                case 'a': // Tecla 4 del teclado numérico
                     x = Math.max(0, x - paso);
                     break;
                 case 'ArrowRight':
-                case '6': // Tecla 6 del teclado numérico
+                case 'd': // Tecla 6 del teclado numérico
                     x = Math.min(450, x + paso);
                     break;
             }

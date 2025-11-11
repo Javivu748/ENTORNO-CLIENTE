@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa a Lista</title>
+</head>
+<body>
+    <h1>Datos del Mapa</h1>
+    <ul id="lista"></ul>
+    
+    <script>
+        const mapa = new Map([
+            ['nombre','paco'],
+            ['edad',22],
+            ['pais','españa'],
+        ]);
+        
+        // Obtener el elemento ul
+        const lista = document.getElementById('lista');
+        
+        // Iterar sobre el mapa y crear elementos li
+        mapa.forEach((valor, clave) => {
+            const elemento = document.createElement('li');
+            elemento.textContent = `${clave}: ${valor}`;
+            lista.appendChild(elemento);
+        });
+    </script>
+</body>
+</html>

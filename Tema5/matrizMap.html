@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Matriz 3x3 - Suma Total</title>
+</head>
+<body>
+    <h1>Matriz 3x3 - Calculadora de Suma Total</h1>
+    
+    <div>
+        <h2>Ingresa los valores de la matriz 3x3:</h2>
+        <div id="matrizInputs"></div>
+    </div>
+
+    <div>
+        <button onclick="calcularSumaTotal()">Calcular Suma Total</button>
+        <button onclick="limpiarMatriz()">Limpiar</button>
+    </div>
+
+    <div id="resultado"></div>
+
+    <script>
+        // Crear la matriz de 3x3
+        function crearMatriz3x3() {
+            const contenedor = document.getElementById('matrizInputs');
+            
+            // Usar map para crear las 3 filas
+            Array.from({length: 3}).map((_, filaIndex) => {
+                const filaDiv = document.createElement('div');
+                filaDiv.style.margin = '10px 0';
+                
+                // Usar map para crear las 3 columnas de cada fila
+                Array.from({length: 3}).map((_, columnaIndex) => {
+                    const input = document.createElement('input');
+                    input.type = 'number';
+                    input.id = `celda${filaIndex}${columnaIndex}`;
+                    input.placeholder = `[${filaIndex},${columnaIndex}]`;
+                    input.style.width = '80px';
+                    input.style.margin = '0 5px';
+                    input.style.padding = '5px';
+                    input.value = (filaIndex * 3 + columnaIndex + 1); // Valores 1-9 por defecto
+                    
+                    filaDiv.appendChild(input);
+                });
+                
+                contenedor.appendChild(filaDiv);
+            });
+        }
+
+        function obtenerMatriz3x3() {
+            // Usar map para obtener los valores de la matriz 3x3
+            const matriz = Array.from({length: 3}).map((_, i) => {
+                return Array.from({length: 3}).map((_, j) => {
+                    const input = document.getElementById(`celda${i}${j}`);
+                    return parseFloat(input.value) || 0;
+                });
+            });
+            
+            return matriz;
+        }
+
+        function calcularSumaTotal() {
+            const matriz = obtenerMatriz3x3();
+            const resultado = document.getElementById('resultado');
+            
+            // Usar map para aplanar la matriz y luego sumar todos los elementos
+            const sumaTotal = matriz
+                .map(fila => fila.reduce((sum, valor) => sum + valor, 0)) // Suma de cada fila
+                .reduce((total, sumaFila) => total + sumaFila, 0); // Suma de todas las filas
+            
+            // Alternativa: aplanar la matriz y sumar todo
+            const sumaAlternativa = matriz
+                .flat() // Convierte matriz 3x3 en array de 9 elementos
+                .reduce((total, valor) => total + valor, 0);
+            
+            // Mostrar la matriz y el resultado
+            const matrizVisual = matriz.map(fila => 
+                `[ ${fila.map(valor => valor.toString().padStart(3)).join('  ')} ]`
+            ).join('\n');
+            
+            resultado.innerHTML = `
+                <h3>Matriz 3x3:</h3>
+                <pre>${matrizVisual}</pre>
+                <h3 style="color: green; font-size: 24px;">
+                    Suma Total de la Matriz: ${sumaTotal}
+                </h3>
+                <p><strong>Proceso de cálculo:</strong></p>
+                <p>1. Se obtuvieron los 9 valores de la matriz 3x3</p>
+                <p>2. Se sumaron todos los elementos usando map y reduce</p>
+                <p>3. Resultado: ${matriz.flat().join(' + ')} = ${sumaTotal}</p>
+            `;
+        }
+
+        function limpiarMatriz() {
+            // Usar map para limpiar todos los inputs
+            Array.from({length: 3}).map((_, i) => {
+                Array.from({length: 3}).map((_, j) => {
+                    const input = document.getElementById(`celda${i}${j}`);
+                    input.value = '';
+                });
+            });
+            
+            document.getElementById('resultado').innerHTML = '';
+        }
+
+        // Crear la matriz al cargar la página
+        window.onload = crearMatriz3x3;
+    </script>
+</body>
+</html>

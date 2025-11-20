@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resolvedor de Laberintos</title>
+</head>
+<body>
+    <h1>Resolvedor de Laberintos</h1>
+    
+    <div id="laberinto"></div>
+    <div id="resultado"></div>
+
+    <script>
+        // Laberinto de ejemplo
+        const laberinto = [
+            ["S", " ", "X", " "],
+            ["X", " ", "X", " "],
+            [" ", " ", " ", " "],
+            ["X", "X", " ", "F"]
+        ];
+
+        // Función para encontrar la posición inicial
+        function encontrarInicio(lab) {
+            for (let y = 0; y < lab.length; y++) {
+                for (let x = 0; x < lab[y].length; x++) {
+                    if (lab[y][x] === "S") {
+                        return { x, y };
+                    }
+                }
+            }
+            return null;
+        }
+
+        // Función recursiva principal
+        function resolverLaberinto(lab, x, y, visitado = []) {
+            // Verificar límites del laberinto
+            if (y < 0 || y >= lab.length || x < 0 || x >= lab[0].length) {
+                return false;
+            }
+
+            // Verificar si es una pared
+            if (lab[y][x] === "X") {
+                return false;
+            }
+
+            // Verificar si ya visitamos esta celda
+            const celdaVisitada = visitado.some(celda => celda.x === x && celda.y === y);
+            if (celdaVisitada) {
+                return false;
+            }
+
+            // Marcar como visitada
+            visitado.push({ x, y });
+
+            // Verificar si llegamos al final
+            if (lab[y][x] === "F") {
+                return true;
+            }
+
+            // Explorar en las 4 direcciones (arriba, derecha, abajo, izquierda)
+            if (resolverLaberinto(lab, x, y - 1, visitado)) return true; // Arriba
+            if (resolverLaberinto(lab, x + 1, y, visitado)) return true; // Derecha
+            if (resolverLaberinto(lab, x, y + 1, visitado)) return true; // Abajo
+            if (resolverLaberinto(lab, x - 1, y, visitado)) return true; // Izquierda
+
+            // Si ninguna dirección lleva a la solución
+            return false;
+        }
+
+        // Función para mostrar el laberinto
+        function mostrarLaberinto(lab) {
+            const contenedor = document.getElementById('laberinto');
+            let html = '<h3>Laberinto:</h3><pre>';
+            
+            for (let fila of lab) {
+                html += fila.join(' | ') + '\n';
+            }
+            
+            html += '</pre>';
+            contenedor.innerHTML = html;
+        }
+
+        // Función principal para ejecutar la solución
+        function resolver() {
+            const inicio = encontrarInicio(laberinto);
+            
+            if (!inicio) {
+                document.getElementById('resultado').innerHTML = 
+                    '<p style="color: red;">No se encontró la posición inicial (S)</p>';
+                return;
+            }
+
+            const haySolucion = resolverLaberinto(laberinto, inicio.x, inicio.y);
+            
+            const resultado = document.getElementById('resultado');
+            if (haySolucion) {
+                resultado.innerHTML = '<p style="color: green;">✅ ¡SÍ hay camino desde S hasta F!</p>';
+            } else {
+                resultado.innerHTML = '<p style="color: red;">❌ NO hay camino desde S hasta F</p>';
+            }
+        }
+
+        // Mostrar el laberinto y resolverlo cuando se carga la página
+        window.onload = function() {
+            mostrarLaberinto(laberinto);
+            resolver();
+        };
+    </script>
+</body>
+</html>

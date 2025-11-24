@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Funciones Recursivas</title>
+</head>
+<body>
+    <h2>Función listarArchivos</h2>
+    
+    <div>
+        <button onclick="mostrarArchivos()">Listar Archivos del Sistema</button>
+    </div>
+    
+    <div id="archivosResult" style="margin-top: 10px;"></div>
+
+    <h2>Función permutar</h2>
+    
+    <div>
+        <label>Ingresa un array (ej: [1,2,3]):</label>
+        <input type="text" id="arrayInput" value="[1,2,3]">
+        <button onclick="calcularPermutaciones()">Calcular Permutaciones</button>
+    </div>
+    
+    <div id="permutacionesResult" style="margin-top: 10px;"></div>
+
+    <script>
+        // Sistema de archivos
+        const fs = {
+            carpeta1: {
+                archivo1: "contenido1",
+                archivo2: "contenido2",
+                subcarpeta: {
+                    archivo3: "contenido3"
+                }
+            },
+            carpeta2: {
+                archivo4: "contenido4"
+            }
+        };
+
+        // Función recursiva listarArchivos
+        function listarArchivos(obj) {
+            let archivos = [];
+            
+            for (const clave in obj) {
+                if (typeof obj[clave] === 'object' && obj[clave] !== null) {
+                    // Es una carpeta, buscar recursivamente
+                    archivos = archivos.concat(listarArchivos(obj[clave]));
+                } else {
+                    // Es un archivo, agregar al array
+                    archivos.push(clave);
+                }
+            }
+            
+            return archivos;
+        }
+
+        // Función recursiva permutar
+        function permutar(arr) {
+            // Caso base: array con 0 o 1 elemento
+            if (arr.length <= 1) {
+                return [arr];
+            }
+            
+            let resultados = [];
+            
+            for (let i = 0; i < arr.length; i++) {
+                // Elemento actual
+                const actual = arr[i];
+                
+                // Array sin el elemento actual
+                const resto = [...arr.slice(0, i), ...arr.slice(i + 1)];
+                
+                // Permutaciones del resto (llamada recursiva)
+                const permutacionesResto = permutar(resto);
+                
+                // Combinar el elemento actual con cada permutación del resto
+                for (const perm of permutacionesResto) {
+                    resultados.push([actual, ...perm]);
+                }
+            }
+            
+            return resultados;
+        }
+
+        // Funciones para mostrar en la interfaz
+        function mostrarArchivos() {
+            const archivos = listarArchivos(fs);
+            document.getElementById('archivosResult').innerHTML = 
+                `<strong>Archivos encontrados:</strong> [${archivos.map(a => `"${a}"`).join(', ')}]`;
+            
+            console.log("listarArchivos(fs):", archivos);
+        }
+
+        function calcularPermutaciones() {
+            try {
+                const input = document.getElementById('arrayInput').value;
+                const array = eval(input);
+                
+                if (!Array.isArray(array)) {
+                    throw new Error("No es un array válido");
+                }
+                
+                const permutaciones = permutar(array);
+                
+                let html = `<strong>Permutaciones de [${array.join(',')}]:</strong><br>`;
+                html += '<ul>';
+                permutaciones.forEach(perm => {
+                    html += `<li>[${perm.join(',')}]</li>`;
+                });
+                html += '</ul>';
+                
+                document.getElementById('permutacionesResult').innerHTML = html;
+                
+                console.log(`permutar(${JSON.stringify(array)}):`, permutaciones);
+                
+            } catch (error) {
+                document.getElementById('permutacionesResult').innerHTML = 
+                    "Error: Ingresa un array válido (ej: [1,2,3])";
+            }
+        }
+    </script>
+</body>
+</html>

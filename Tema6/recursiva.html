@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplanar Arrays</title>
+</head>
+<body>
+    <h2>Aplanador de Arrays Recursivo</h2>
+    
+    <div>
+        <label>Ingresa un array (ej: [1, [2, [3, 4]], 5]):</label><br>
+        <input type="text" id="arrayInput" value="[1, [2, [3, 4]], 5]" style="width: 300px;">
+        <button onclick="procesarArray()">Aplanar Array</button>
+    </div>
+    
+    <div id="resultado" style="margin-top: 20px; font-weight: bold;"></div>
+
+    <script>
+        // Función recursiva para aplanar arrays
+        function aplanar(arr) {
+            let resultado = [];
+            
+            for (let elemento of arr) {
+                if (Array.isArray(elemento)) {
+                    // Si es un array, llamamos recursivamente a la función
+                    resultado = resultado.concat(aplanar(elemento));
+                } else {
+                    // Si no es un array, lo agregamos directamente
+                    resultado.push(elemento);
+                }
+            }
+            
+            return resultado;
+        }
+        
+        // Función para procesar el input del usuario
+        function procesarArray() {
+            const input = document.getElementById('arrayInput').value;
+            
+            try {
+                // Convertir el string a array real
+                const arrayOriginal = eval(input);
+                
+                if (!Array.isArray(arrayOriginal)) {
+                    throw new Error("No es un array válido");
+                }
+                
+                // Aplanar el array
+                const arrayAplanado = aplanar(arrayOriginal);
+                
+                // Mostrar resultados
+                document.getElementById('resultado').innerHTML = `
+                    <strong>Array original:</strong> ${JSON.stringify(arrayOriginal)}<br>
+                    <strong>Array aplanado:</strong> ${JSON.stringify(arrayAplanado)}
+                `;
+                
+                // Mostrar en consola también
+                console.log("Array original:", arrayOriginal);
+                console.log("Array aplanado:", arrayAplanado);
+                
+            } catch (error) {
+                document.getElementById('resultado').textContent = 
+                    "Error: Ingresa un array válido (ej: [1, [2, [3, 4]], 5])";
+            }
+        }
+    </script>
+</body>
+</html>

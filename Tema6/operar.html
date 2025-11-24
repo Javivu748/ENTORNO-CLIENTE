@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Operaciones Matemáticas</title>
+</head>
+<body>
+    <h2>Calculadora de Operaciones</h2>
+    
+    <div>
+        <label for="num1">Número 1:</label>
+        <input type="number" id="num1" value="2">
+    </div>
+    
+    <div>
+        <label for="num2">Número 2:</label>
+        <input type="number" id="num2" value="3">
+    </div>
+    
+    <div>
+        <button onclick="ejecutarOperacion('suma')">Suma</button>
+        <button onclick="ejecutarOperacion('resta')">Resta</button>
+        <button onclick="ejecutarOperacion('multiplicacion')">Multiplicación</button>
+        <button onclick="ejecutarOperacion('suma_mul')">Suma + Multiplicación</button>
+    </div>
+    
+    <div id="resultado" style="margin-top: 20px; font-weight: bold;"></div>
+
+    <script>
+        // Funciones de operación
+        function suma(a, b) {
+            return a + b;
+        }
+        
+        function resta(a, b) {
+            return a - b;
+        }
+        
+        function multiplicacion(a, b) {
+            return a * b;
+        }
+        
+        function suma_mul(a, b) {
+            const sumaResult = suma(a, b);
+            const mulResult = multiplicacion(a, b);
+            return `${sumaResult} + ${mulResult} = ${sumaResult + mulResult}`;
+        }
+        
+        // Función principal operar
+        function operar(num1, num2, operacion) {
+            switch(operacion) {
+                case 'suma':
+                    return suma(num1, num2);
+                case 'resta':
+                    return resta(num1, num2);
+                case 'multiplicacion':
+                    return multiplicacion(num1, num2);
+                case 'suma_mul':
+                    return suma_mul(num1, num2);
+                default:
+                    return 'Operación no válida';
+            }
+        }
+        
+        // Función para ejecutar desde los botones
+        function ejecutarOperacion(tipo) {
+            const num1 = parseFloat(document.getElementById('num1').value);
+            const num2 = parseFloat(document.getElementById('num2').value);
+            
+            const resultado = operar(num1, num2, tipo);
+            document.getElementById('resultado').textContent = `Resultado: ${resultado}`;
+        }
+    </script>
+</body>
+</html>

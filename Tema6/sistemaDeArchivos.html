@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explorador de Archivos</title>
+</head>
+<body>
+    <h2>Sistema de Archivos</h2>
+    
+    <div id="explorador"></div>
+    
+    <div style="margin-top: 20px;">
+        <button onclick="mostrarEstructura()">Mostrar Estructura Completa</button>
+        <button onclick="listarArchivos()">Listar Todos los Archivos</button>
+        <button onclick="buscarArchivo()">Buscar Archivo</button>
+    </div>
+    
+    <div id="resultado" style="margin-top: 20px; font-weight: bold;"></div>
+
+    <script>
+        // Objeto que representa el sistema de archivos
+        const fs = {
+            carpeta1: {
+                archivo1: "contenido1",
+                archivo2: "contenido2",
+                subcarpeta: {
+                    archivo3: "contenido3",
+                    subsubcarpeta: {
+                        archivo5: "contenido5"
+                    }
+                }
+            },
+            carpeta2: {
+                archivo4: "contenido4",
+                otraSubcarpeta: {
+                    archivo6: "contenido6"
+                }
+            },
+            archivo7: "contenido7"
+        };
+
+        // Función para mostrar la estructura completa
+        function mostrarEstructura(objeto = fs, nivel = 0) {
+            let resultado = '';
+            const indent = '  '.repeat(nivel);
+            
+            for (const clave in objeto) {
+                if (typeof objeto[clave] === 'object' && objeto[clave] !== null) {
+                    resultado += `${indent}📁 ${clave}/\n`;
+                    resultado += mostrarEstructura(objeto[clave], nivel + 1);
+                } else {
+                    resultado += `${indent}📄 ${clave}: "${objeto[clave]}"\n`;
+                }
+            }
+            
+            return resultado;
+        }
+
+        // Función para listar todos los archivos con sus rutas
+        function listarArchivos(objeto = fs, rutaActual = '') {
+            let archivos = [];
+            
+            for (const clave in objeto) {
+                const rutaCompleta = rutaActual ? `${rutaActual}/${clave}` : clave;
+                
+                if (typeof objeto[clave] === 'object' && objeto[clave] !== null) {
+                    // Es una carpeta, buscar recursivamente
+                    archivos = archivos.concat(listarArchivos(objeto[clave], rutaCompleta));
+                } else {
+                    // Es un archivo
+                    archivos.push({
+                        nombre: clave,
+                        ruta: rutaCompleta,
+                        contenido: objeto[clave]
+                    });
+                }
+            }
+            
+            return archivos;
+        }
+
+        // Función para buscar un archivo por nombre
+        function buscarArchivo(nombre = 'archivo3') {
+            const todosArchivos = listarArchivos();
+            return todosArchivos.find(archivo => archivo.nombre === nombre);
+        }
+
+        // Función para mostrar en la interfaz
+        function mostrarEstructura() {
+            document.getElementById('resultado').innerHTML = 
+                '<pre>' + mostrarEstructura() + '</pre>';
+        }
+
+        function listarArchivos() {
+            const archivos = listarArchivos();
+            let html = '<h3>Todos los archivos:</h3><ul>';
+            
+            archivos.forEach(archivo => {
+                html += `<li><strong>${archivo.ruta}</strong>: "${archivo.contenido}"</li>`;
+            });
+            
+            html += '</ul>';
+            document.getElementById('resultado').innerHTML = html;
+        }
+
+        function buscarArchivo() {
+            const nombre = prompt('Ingresa el nombre del archivo a buscar:', 'archivo3');
+            if (nombre) {
+                const archivoEncontrado = buscarArchivo(nombre);
+                
+                if (archivoEncontrado) {
+                    document.getElementById('resultado').innerHTML = 
+                        `<strong>Archivo encontrado:</strong><br>
+                         Ruta: ${archivoEncontrado.ruta}<br>
+                         Contenido: "${archivoEncontrado.contenido}"`;
+                } else {
+                    document.getElementById('resultado').innerHTML = 
+                        `No se encontró el archivo "${nombre}"`;
+                }
+            }
+        }
+
+        // Mostrar estructura inicial
+        mostrarEstructura();
+    </script>
+</body>
+</html>

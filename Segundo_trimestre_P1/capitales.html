@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Juego de Capitales</title>
+</head>
+<body>
+    <h1>Juego de Adivinar Capitales</h1>
+    <div id="input-phase">
+        <h2>Introduce 6 nombres de capitales</h2>
+        <p id="input-message">Capital 1 de 6:</p>
+        <input type="text" id="capital-input" placeholder="Nombre de la capital">
+        <button onclick="addCapital()">Agregar Capital</button>
+        <p id="error-message"></p>
+        <div id="capitals-list"></div>
+    </div>
+
+    <div id="game-phase" style="display:none;">
+        <h2>¡Adivina la Capital!</h2>
+        <p id="hint"></p>
+        <p id="attempts-info"></p>
+        <input type="text" id="guess-input" placeholder="Tu respuesta">
+        <button onclick="checkGuess()">Adivinar</button>
+        <p id="game-message"></p>
+        <button onclick="restartGame()" style="display:none;" id="restart-btn">Jugar de Nuevo</button>
+    </div>
+
+    <script>
+        let capitals = [];
+        let currentIndex = 0;
+        let selectedCapital = '';
+        let attempts = 0;
+        let maxAttempts = 0;
+        let won = false;
+
+        function addCapital() {
+            const input = document.getElementById('capital-input');
+            const errorMsg = document.getElementById('error-message');
+            const capital = input.value.trim();
+
+            if (capital.length < 5) {
+                errorMsg.textContent = 'Error: El nombre debe tener al menos 5 caracteres. Intenta de nuevo.';
+                errorMsg.style.color = 'red';
+                return;
+            }
+
+            const normalizedCapital = capital.toLowerCase();
+            capitals.push(normalizedCapital);
+            currentIndex++;
+
+            errorMsg.textContent = '';
+            input.value = '';
+
+            updateCapitalsList();
+
+            if (currentIndex < 6) {
+                document.getElementById('input-message').textContent = `Capital ${currentIndex + 1} de 6:`;
+            } else {
+                startGame();
+            }
+        }
+
+        function updateCapitalsList() {
+            const list = document.getElementById('capitals-list');
+            list.innerHTML = '<h3>Capitales introducidas:</h3>';
+            capitals.forEach((cap, idx) => {
+                list.innerHTML += `<p>${idx + 1}. ${cap}</p>`;
+            });
+        }
+
+        function startGame() {
+            document.getElementById('input-phase').style.display = 'none';
+            document.getElementById('game-phase').style.display = 'block';
+
+            const randomIndex = Math.floor(Math.random() * capitals.length);
+            selectedCapital = capitals[randomIndex];
+            maxAttempts = selectedCapital.length;
+            attempts = 0;
+            won = false;
+
+            updateHint();
+            updateAttemptsInfo();
+        }
+
+        function updateHint() {
+            let hint = '';
+            for (let i = 0; i < selectedCapital.length; i++) {
+                if (i < attempts) {
+                    hint += selectedCapital[i] + ' ';
+                } else {
+                    hint += '_ ';
+                }
+            }
+            document.getElementById('hint').textContent = `Pista: ${hint}`;
+        }
+
+        function updateAttemptsInfo() {
+            document.getElementById('attempts-info').textContent = 
+                `Intento ${attempts + 1} de ${maxAttempts}`;
+        }
+
+        function checkGuess() {
+            if (won) return;
+
+            const input = document.getElementById('guess-input');
+            const guess = input.value.trim().toLowerCase();
+            const gameMsg = document.getElementById('game-message');
+
+            if (!guess) {
+                gameMsg.textContent = 'Por favor, introduce una respuesta.';
+                gameMsg.style.color = 'orange';
+                return;
+            }
+
+            attempts++;
+
+            if (guess === selectedCapital) {
+                won = true;
+                gameMsg.textContent = `¡FELICIDADES! Has adivinado la capital: ${selectedCapital.toUpperCase()}`;
+                gameMsg.style.color = 'green';
+                document.getElementById('hint').textContent = `La palabra completa era: ${selectedCapital}`;
+                document.getElementById('restart-btn').style.display = 'block';
+                document.getElementById('guess-input').disabled = true;
+                return;
+            }
+
+            if (attempts >= maxAttempts) {
+                gameMsg.textContent = `Has perdido. La capital era: ${selectedCapital.toUpperCase()}`;
+                gameMsg.style.color = 'red';
+                document.getElementById('hint').textContent = `La palabra completa era: ${selectedCapital}`;
+                document.getElementById('restart-btn').style.display = 'block';
+                document.getElementById('guess-input').disabled = true;
+                return;
+            }
+
+            gameMsg.textContent = `Incorrecto. Intenta de nuevo.`;
+            gameMsg.style.color = 'red';
+            input.value = '';
+            updateHint();
+            updateAttemptsInfo();
+        }
+
+        function restartGame() {
+            capitals = [];
+            currentIndex = 0;
+            selectedCapital = '';
+            attempts = 0;
+            won = false;
+
+            document.getElementById('input-phase').style.display = 'block';
+            document.getElementById('game-phase').style.display = 'none';
+            document.getElementById('capital-input').value = '';
+            document.getElementById('guess-input').value = '';
+            document.getElementById('guess-input').disabled = false;
+            document.getElementById('error-message').textContent = '';
+            document.getElementById('game-message').textContent = '';
+            document.getElementById('input-message').textContent = 'Capital 1 de 6:';
+            document.getElementById('capitals-list').innerHTML = '';
+            document.getElementById('restart-btn').style.display = 'none';
+        }
+
+        document.getElementById('capital-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                addCapital();
+            }
+        });
+
+        document.getElementById('guess-input').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkGuess();
+            }
+        });
+    </script>
+</body>
+</html>

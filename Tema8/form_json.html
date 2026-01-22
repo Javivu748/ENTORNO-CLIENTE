@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <style>
+        body { font-family: 'Segoe UI', sans-serif; padding: 30px; background-color: #f4f7f6; }
+        .container { background: white; padding: 20px; border-radius: 10px; max-width: 900px; margin: auto; box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+        h2 { color: #333; text-align: center; }
+        
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .form-full { grid-column: 1 / -1; }
+        
+        input { width: 100%; padding: 10px; border: 1px solid #ddd; border-radius: 5px; box-sizing: border-box; }
+        input:invalid { border-color: #dc3545; background-color: #ffe6e6; }
+        
+        .botones { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+        button { padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; color: white; }
+        
+        .btn-add { background-color: #007bff; }
+        .btn-add:hover { background-color: #0056b3; }
+        .btn-clear { background-color: #dc3545; }
+        .btn-clear:hover { background-color: #c82333; }
+        .btn-download { background-color: #28a745; }
+        .btn-download:hover { background-color: #218838; }
+        .btn-upload { background-color: #ffc107; color: #333; }
+        .btn-upload:hover { background-color: #e0a800; }
+        
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #eee; }
+        th { background-color: #f8f9fa; font-weight: bold; }
+        
+        .error { color: #dc3545; font-size: 0.9em; margin-top: 5px; }
+        
+        #fileInput { display: none; }
+        
+        .info-box { background-color: #e7f3ff; border-left: 4px solid #2196F3; padding: 12px; margin: 15px 0; border-radius: 4px; font-size: 0.9em; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Gestor de Alumnos</h2>
+    
+    <form id="formAlumno">
+        <div class="form-grid">
+            <input type="text" id="nombre" placeholder="Nombre *" required>
+            <input type="text" id="apellidos" placeholder="Apellidos *" required>
+            <input type="number" id="edad" placeholder="Edad *" min="14" max="100" required>
+            <input type="number" id="nota" placeholder="Nota (0-10) *" min="0" max="10" step="0.1" required>
+            <input type="tel" id="movil" placeholder="Móvil (9 dígitos, comienza por 6) *" required>
+        </div>
+        
+        <div id="errorMovil" class="error"></div>
+        
+        <div class="botones" style="margin-top: 20px; gap: 10px;">
+            <button type="submit" class="btn-add">Añadir Alumno</button>
+            <button type="button" id="btnDescargar" class="btn-download">Descargar JSON</button>
+            <button type="button" id="btnSubir" class="btn-upload">Subir JSON</button>
+            <button type="button" id="btnBorrarTodo" class="btn-clear">Borrar Todo</button>
+        </div>
+    </form>
+
+    <div class="info-box">
+        Móvil: debe tener exactamente 9 dígitos y comenzar por 6 (ej: 612345678)
+    </div>
+
+    <table id="tabla">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Nombre</th>
+                <th>Apellidos</th>
+                <th>Edad</th>
+                <th>Nota</th>
+                <th>Móvil</th>
+            </tr>
+        </thead>
+        <tbody id="cuerpo"></tbody>
+    </table>
+</div>
+
+<input type="file" id="fileInput" accept=".json">
+
+<script>
+    // --- 1. INICIALIZACIÓN ---
+    let alumnos = JSON.parse(localStorage.getItem('alumnos_dwec')) || [];
+
+    const form = document.getElementById('formAlumno');
+    const cuerpo = document.getElementById('cuerpo');
+    const btnClear = document.getElementById('btnBorrarTodo');
+    const btnDescargar = document.getElementById('btnDescargar');
+    const btnSubir = document.getElementById('btnSubir');
+    const fileInput = document.getElementById('fileInput');
+    const errorMovil = document.getElementById('errorMovil');
+
+    renderizar();
+
+    // --- 2. VALIDACIÓN DE MÓVIL ---
+    function validarMovil(movil) {
+        const regex = /^6\d{8}$/;
+        return regex.test(movil);
+    }
+
+    document.getElementById('movil').addEventListener('blur', () => {
+        const movil = document.getElementById('movil').value;
+        if (movil && !validarMovil(movil)) {
+            errorMovil.textContent = ' El móvil debe tener 9 dígitos y comenzar por 6';
+            errorMovil.style.display = 'block';
+        } else {
+            errorMovil.textContent = '';
+            errorMovil.style.display = 'none';
+        }
+    });
+
+    // --- 3. GESTOS DE FORMULARIO ---
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        
+        const movil = document.getElementById('movil').value;
+        
+        if (!validarMovil(movil)) {
+            errorMovil.textContent = ' El móvil debe tener 9 dígitos y comenzar por 6';
+            return;
+        }
+        
+        const nuevo = {
+            nombre: document.getElementById('nombre').value,
+            apellidos: document.getElementById('apellidos').value,
+            edad: parseInt(document.getElementById('edad').value),
+            nota: parseFloat(document.getElementById('nota').value),
+            movil: movil
+        };
+        
+        alumnos.push(nuevo);
+        guardarYSincronizar();
+        form.reset();
+        errorMovil.textContent = '';
+    });
+
+    btnClear.addEventListener('click', () => {
+        if(confirm("¿Seguro que quieres borrar toda la lista?")) {
+            alumnos = [];
+            guardarYSincronizar();
+        }
+    });
+
+    // --- 4. DESCARGAR JSON ---
+    btnDescargar.addEventListener('click', () => {
+        const dataStr = JSON.stringify(alumnos, null, 2);
+        const dataBlob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(dataBlob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.download = 'alumnos_' + new Date().toISOString().split('T')[0] + '.json';
+        link.click();
+        URL.revokeObjectURL(url);
+    });
+
+    // --- 5. SUBIR JSON ---
+    btnSubir.addEventListener('click', () => {
+        fileInput.click();
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            try {
+                const datos = JSON.parse(event.target.result);
+                
+                if (!Array.isArray(datos)) {
+                    alert('❌ El archivo debe contener un array de alumnos');
+                    return;
+                }
+
+                // Validar que los objetos tengan la estructura correcta
+                const valido = datos.every(item => 
+                    item.hasOwnProperty('nombre') && 
+                    item.hasOwnProperty('apellidos') && 
+                    item.hasOwnProperty('edad') && 
+                    item.hasOwnProperty('nota') && 
+                    item.hasOwnProperty('movil')
+                );
+
+                if (!valido) {
+                    alert('❌ El archivo tiene campos faltantes. Debe contener: nombre, apellidos, edad, nota, movil');
+                    return;
+                }
+
+                alumnos = datos;
+                guardarYSincronizar();
+                alert(' Archivo importado correctamente');
+            } catch (error) {
+                alert(' Error al procesar el archivo: ' + error.message);
+            }
+        };
+        reader.readAsText(file);
+        fileInput.value = '';
+    });
+
+    // --- 6. PERSISTENCIA Y VISTA ---
+    function guardarYSincronizar() {
+        localStorage.setItem('alumnos_dwec', JSON.stringify(alumnos));
+        renderizar();
+    }
+
+    function renderizar() {
+        cuerpo.innerHTML = "";
+        alumnos.forEach((alum, i) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${i + 1}</td>
+                <td>${alum.nombre}</td>
+                <td>${alum.apellidos}</td>
+                <td>${alum.edad}</td>
+                <td>${alum.nota.toFixed(2)}</td>
+                <td>${alum.movil}</td>
+            `;
+            cuerpo.appendChild(tr);
+        });
+    }
+</script>
+
+</body>
+</html>
